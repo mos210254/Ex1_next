@@ -15,10 +15,20 @@ module.exports = {
         "ninja-tan": "#E5DED5",
         "ninja-brown": "#8B7355",
       },
+      keyframes: {
+        "arrow-loop": {
+          "0%": { transform: "translateX(0)", opacity: "1" },
+          "45%": { transform: "translateX(8px)", opacity: "0" },
+          "55%": { transform: "translateX(-8px)", opacity: "0" },
+          "100%": { transform: "translateX(0)", opacity: "1" },
+        },
+      },
       fontFamily: {
-        serif: ["var(--font-serif)", "serif"],
+        serif: ["var(--font-serif)", "sans-serif"],
+      },
+      animation: {
+        "arrow-loop": "arrow-loop .5s ease-in-out",
       },
     },
   },
-  plugins: [],
 }
