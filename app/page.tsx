@@ -149,12 +149,27 @@ const images = [
     bgimg: "bg-[#F7E1D2]",
   },
 ]
+
 const itemVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: { opacity: 1, y: 0 },
 }
 
 const containerVariants = {
+  hidden: { opacity: 1 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2, // เวลา delay ระหว่างแต่ละช่อง
+    },
+  },
+}
+const itemVariants2 = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0 },
+}
+
+const containerVariants2 = {
   hidden: { opacity: 1 },
   visible: {
     opacity: 1,
@@ -198,18 +213,26 @@ export default function HomePage() {
   const ref3 = useRef(null) // อ้างอิง div สาม
   const ref4 = useRef(null) // อ้างอิง div สาม
   const ref5 = useRef(null) // อ้างอิง div สาม
+  const ref6 = useRef(null) // อ้างอิง div สาม
+  const ref7 = useRef(null) // อ้างอิง div สาม
+  const ref8 = useRef(null) // อ้างอิง div สาม
 
   const inView1 = useInView(ref1, { once: true, margin: "-100px" }) // ตรวจจับ div แรก
   const inView2 = useInView(ref2, { once: true, margin: "-100px" }) // ตรวจจับ div ที่สอง
   const inView3 = useInView(ref3, { once: true, margin: "-100px" }) // ตรวจ div สาม
   const inView4 = useInView(ref4, { once: true, margin: "-100px" }) // ตรวจ div สาม
   const inView5 = useInView(ref5, { once: true, margin: "-100px" }) // ตรวจ div สาม
+  const inView6 = useInView(ref6, { once: true, margin: "-100px" }) // ตรวจ div สาม
+  const inView7 = useInView(ref7, { once: true, margin: "-100px" }) // ตรวจ div สาม
+  const inView8 = useInView(ref8, { once: true, margin: "-100px" }) // ตรวจ div สาม
 
   const controls1 = useAnimation() // Animation สำหรับ div แรก
   const controls2 = useAnimation() // Animation สำหรับ div ที่สอง
   const controls3 = useAnimation() // Animation สำหรับ div สาม
   const controls4 = useAnimation() // Animation สำหรับ div 4
   const controls5 = useAnimation() // Animation สำหรับ div 5
+  const controls6 = useAnimation() // Animation สำหรับ div 6
+  const controls7 = useAnimation() // Animation สำหรับ div 7
 
   useEffect(() => {
     if (inView1) {
@@ -238,6 +261,17 @@ export default function HomePage() {
       controls5.start("visible") // เริ่ม animation สำหรับ div ที่สอง
     }
   }, [inView5, controls5])
+
+  useEffect(() => {
+    if (inView6) {
+      controls6.start({ opacity: 1, y: 0 }) // เริ่มอนิเมชันเมื่อองค์ประกอบเข้าสู่มุมมอง
+    }
+  }, [inView6, controls6])
+  useEffect(() => {
+    if (inView7) {
+      controls7.start({ opacity: 1, y: 0 }) // เริ่มอนิเมชันเมื่อองค์ประกอบเข้าสู่มุมมอง
+    }
+  }, [inView7, controls7])
   function getImagePositionClass(index: number): string {
     const positions = [
       "top-0 left-0",
@@ -481,7 +515,7 @@ export default function HomePage() {
               {isSubmenuOpen3 && (
                 <motion.div
                   className={`absolute top-[3rem] left-[-3rem] z-50 w-[15rem] rounded-[15px] bg-white px-[2rem] py-[.75rem] shadow-lg ${
-                    isSticky ? "left-[-21rem]" : ""
+                    isSticky ? "left-[-4rem]" : ""
                   }`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -1047,10 +1081,14 @@ export default function HomePage() {
             </div>
 
             {/* ตรงกลาง */}
-            <div className="relative z-10 text-center">
-              <h2 className="f_header mb-4 text-4xl font-bold">
-                Spanning a wider <br /> world of talent
-              </h2>
+            <motion.div
+              ref={ref6}
+              initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
+              animate={controls6} // ใช้ controls เพื่อควบคุม animation
+              transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและ
+              className="relative z-10 text-center"
+            >
+              <h2 className="f_header mb-4 text-[3.75rem] font-[400]">Spanning a wider world of talent</h2>
               <p className="mb-6 text-lg text-gray-700">
                 What are the odds that the most qualified people in the world live in your zip code? We’ll help you see
                 further.
@@ -1060,13 +1098,10 @@ export default function HomePage() {
                 <br />
                 <strong>It’s time to go international. No passport required.</strong>
               </p>
-              <a
-                href="/get-started"
-                className="inline-block rounded-full bg-green-600 px-6 py-3 text-white transition hover:bg-green-700"
-              >
-                Get Started
-              </a>
-            </div>
+              <button className="w-fit cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
+                <p className="font-bold">Get Started</p>
+              </button>
+            </motion.div>
 
             {/* ขวา */}
             <div className="hidden grid-cols-2 gap-4 lg:grid">
@@ -1095,7 +1130,13 @@ export default function HomePage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* Left Content */}
-            <div className="flex flex-col justify-center">
+            <motion.div
+              ref={ref7} // อ้างอิง div นี้
+              initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
+              animate={controls7} // ใช้ controls เพื่อควบคุม animation
+              transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและ easing
+              className="flex flex-col justify-center"
+            >
               <h2 className="f_header mb-4 text-3xl font-bold lg:text-[3.75rem]">
                 Our customized <br /> approach
               </h2>
@@ -1103,7 +1144,7 @@ export default function HomePage() {
                 We tailor our strategies and services based on your roadblocks and needs, delivering a strategic
                 outsourcing playbook — inclusive of technology, talent, and timing — that drives your business forward.
               </p>
-            </div>
+            </motion.div>
 
             {/* Right Tabs */}
             <div>
@@ -1143,12 +1184,9 @@ export default function HomePage() {
                           <p className="text-gray-700">{step}</p>
                         </div>
                       ))}
-                      <a
-                        href="/how-it-works"
-                        className="mt-4 inline-block w-[100%] rounded-full bg-green-600 px-6 py-3 text-center text-white transition hover:bg-green-700"
-                      >
-                        View details
-                      </a>
+                      <button className="w-full cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
+                        <p className="font-bold">View details</p>
+                      </button>{" "}
                     </div>
                   )}
 
@@ -1168,12 +1206,9 @@ export default function HomePage() {
                           <p className="text-gray-700">{step}</p>
                         </div>
                       ))}
-                      <a
-                        href="/how-it-works"
-                        className="mt-4 inline-block w-[100%] rounded-full bg-green-600 px-6 py-3 text-center text-white transition hover:bg-green-700"
-                      >
-                        View details
-                      </a>
+                      <button className="w-full cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
+                        <p className="font-bold">View details</p>
+                      </button>{" "}
                     </div>
                   )}
                 </div>
@@ -1198,30 +1233,36 @@ export default function HomePage() {
                 <br /> and career development of our team members — and that's
                 <br /> earned us industry-high talent retention rates.
               </p>
-              <button className="w-fit rounded-full bg-[#0D3A23] px-6 py-3 text-white hover:bg-[#0D3A23]/90">
-                <p className="font-bold">read our story</p>
+              <button className="w-fit cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
+                <p className="font-bold">Read our story</p>
               </button>
             </div>
 
-            {/* Images collage */}
-            <div className="order-1 grid grid-cols-3 gap-4 md:order-2 md:w-[700px]">
+            <motion.div
+              ref={ref8}
+              className="order-1 grid grid-cols-3 gap-4 md:order-2 md:w-[700px]"
+              variants={containerVariants2}
+              initial="hidden"
+              animate={inView8 ? "visible" : "hidden"}
+            >
               {images.map((img, index) => (
-                <div
+                <motion.div
                   key={index}
                   className={`h-auto w-full overflow-hidden rounded-xl object-cover shadow-lg ${
                     index === 2 ? "-translate-x-5 translate-y-[-20px]" : ""
                   } ${index === 4 ? "-translate-x-5 translate-y-[20px]" : ""}`}
+                  variants={itemVariants2}
                 >
                   <Image
                     src={img.src}
                     alt={img.alt}
-                    width={402} // เพิ่มขนาดความกว้าง
-                    height={402} // เพิ่มขนาดความสูง
+                    width={402}
+                    height={402}
                     className={`${img.bgimg} h-full w-full rounded-xl object-cover`}
                   />
-                </div>
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
           </div>
         </div>
       </section>
@@ -1229,16 +1270,27 @@ export default function HomePage() {
       <section className="w-full bg-[#fffcfa] px-[7.5vw] py-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col-reverse items-center gap-[7.5vw] lg:flex-row">
-            <div className="flex flex-1 justify-center overflow-x-hidden md:justify-start">
+            <div className="relative flex flex-1 justify-center md:justify-start">
               <Image
                 src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c7fc2ce4791_Stock%20Image__Conference%20Room.webp"
                 alt="Project Logo"
                 width={559}
                 height={290}
-                className="h-auto w-[100%] min-w-full overflow-x-hidden rounded-lg object-contain"
+                className="h-auto w-[100%] min-w-full rounded-lg object-contain"
                 priority
               />
+              <div className="absolute bottom-[-5rem] left-16 hidden w-[10vw] rounded-[14px] bg-[#F7E1D2] shadow-2xl lg:block">
+                <Image
+                  src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c34dace47c3_Tile%20Illustrations__Document%202.webp"
+                  alt="Project Logo"
+                  width={1920}
+                  height={200}
+                  className="h-auto w-full"
+                  priority
+                />
+              </div>
             </div>
+
             <div className="flex-1 text-center md:text-left">
               <p className="text-ninja-dark f_header mb-4 text-4xl font-medium md:text-5xl lg:text-6xl">
                 Grow your career and unleash your <br></br> potential.
@@ -1250,7 +1302,7 @@ export default function HomePage() {
                 At SupportNinja, we prioritize your progress, celebrate<br></br> your wins, and provide a supportive
                 environment where<br></br> you can thrive. Check out our openings today.
               </p>
-              <button className="w-fit rounded-full bg-[#0D3A23] px-6 py-3 text-white hover:bg-[#0D3A23]/90">
+              <button className="w-fit cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
                 <p className="font-bold">View Open roles</p>
               </button>
             </div>
@@ -1258,7 +1310,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="w-full bg-[#fffcfa]">
+      <section className="w-full bg-[#fffcfa] pt-[8.5rem]">
         <div className="w-full">
           <Image
             src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c211cce4793_Section%20Curve%2003.svg"
@@ -1314,7 +1366,7 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#bfc1b9] pt-12 pb-6">
+      <footer className="bg-[#bfc1b9] px-[7.5vw] pt-12 pb-6">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <Link href="/" className="inline-block">
