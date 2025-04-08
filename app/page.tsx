@@ -22,7 +22,7 @@ const img_data = [
   },
   {
     src: "https://cdn.prod.website-files.com/64149f79022d0c3ed8ce46e9/64149f79022d0c3491ce4b63_filled_technical_support.webp",
-    alt: "Technical Customer Support",
+    alt: `Technical Customer Support`,
     width: 1200,
     height: 630,
   },
@@ -168,6 +168,16 @@ export default function HomePage() {
   const [isOpen, setIsOpen] = useState(false)
   const [activeTab, setActiveTab] = useState("management") // กำหนดค่าเริ่มต้นของแท็บ
   const [checkedItems, setCheckedItems] = useState([false, false, false])
+  const [open_menu1, setOpenMenu1] = useState(false) // ใช้สำหรับเปิดเมนู
+  const menuRef = useRef<HTMLDivElement | null>(null) // ใช้ ref เดียวกัน
+  const [menuWidth, setMenuWidth] = useState(0)
+  const navRef = useRef<HTMLElement | null>(null) // ✅ กำหนด type
+
+  useEffect(() => {
+    if (navRef.current) {
+      setMenuWidth(navRef.current.offsetWidth)
+    }
+  }, [isSticky])
 
   useEffect(() => {
     const handleScroll = () => {
@@ -244,6 +254,57 @@ export default function HomePage() {
     updatedItems[index] = !updatedItems[index] // เปลี่ยนสถานะของ checkbox ที่ถูกคลิก
     setCheckedItems(updatedItems)
   }
+
+  const [isSubmenuOpen, setIsSubmenuOpen] = useState(false)
+  const [isSubmenuOpen2, setIsSubmenuOpen2] = useState(false)
+  const [isSubmenuOpen3, setIsSubmenuOpen3] = useState(false)
+
+  let timeout: NodeJS.Timeout
+
+  const handleMouseEnter = () => {
+    setIsSubmenuOpen2(false)
+    setIsSubmenuOpen3(false)
+    clearTimeout(timeout) // ยกเลิกการซ่อนเมนูย่อย
+    setIsSubmenuOpen(true) // เปิดเมนูย่อย
+  }
+
+  const handleMouseLeave = () => {
+    setIsSubmenuOpen2(false)
+    setIsSubmenuOpen3(false)
+    timeout = setTimeout(() => {
+      setIsSubmenuOpen(false) // ซ่อนเมนูย่อยหลังจากหน่วงเวลา
+    }, 200) // หน่วงเวลา 200ms
+  }
+  const handleMouseEnter2 = () => {
+    setIsSubmenuOpen(false)
+    setIsSubmenuOpen3(false)
+    clearTimeout(timeout) // ยกการซ่อนย่อย
+    setIsSubmenuOpen2(true) // เปิดย่อย
+  }
+
+  const handleMouseLeave2 = () => {
+    setIsSubmenuOpen(false)
+    setIsSubmenuOpen3(false)
+    timeout = setTimeout(() => {
+      setIsSubmenuOpen2(false) // ซ่อนย่อยหน่วงเวลา
+    }, 200) // หน่วงเวลา 200ms
+  }
+
+  const handleMouseEnter3 = () => {
+    setIsSubmenuOpen(false)
+    setIsSubmenuOpen2(false)
+    clearTimeout(timeout) // ยกการซ่อนย่อย
+    setIsSubmenuOpen3(true) // เปิดย่อย
+  }
+
+  const handleMouseLeave3 = () => {
+    setIsSubmenuOpen(false)
+    setIsSubmenuOpen2(false)
+    timeout = setTimeout(() => {
+      setIsSubmenuOpen3(false) // ซ่อนย่อยหน่วงเวลา
+    }, 200) // หน่วงเวลา 200ms
+  }
+  const [isHovered, setIsHovered] = useState(false)
   return (
     <div className="flex min-h-screen flex-col bg-[#f7e1d2]">
       {/* Header/Navigation */}
@@ -256,25 +317,187 @@ export default function HomePage() {
             <Image
               src="https://ext.same-assets.com/1779142936/3292783992.svg"
               alt="Support Ninja | Full Logo"
-              width={160}
+              width={192}
               height={40}
               priority
+              className="w-[12rem]"
             />
           </Link>
-          <nav className={`hidden space-x-6 lg:flex ${isSticky ? "rounded-[200px] bg-white px-[2rem] py-[1rem]" : ""}`}>
-            <a href="#solutions" className="text-ninja-dark hover:text-ninja-red font-bold">
-              Solutions
-            </a>
-            <a href="#industries" className="text-ninja-dark hover:text-ninja-red font-bold">
-              Industries
-            </a>
-            <a href="#how-it-works" className="text-ninja-dark hover:text-ninja-red font-bold">
+          <nav
+            ref={navRef}
+            className={`hidden space-x-8 lg:flex ${
+              isSticky ? "rounded-[200px] border-1 bg-white px-[2rem] py-[.75rem]" : ""
+            }`}
+          >
+            <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
+              {/* เมนูหลัก */}
+              <div className="text-ninja-dark flex cursor-pointer items-center gap-2 font-bold">
+                Solutions
+                <svg
+                  width="10"
+                  height="7"
+                  viewBox="0 0 10 7"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`transition-all duration-300 ${isSubmenuOpen ? "rotate-180" : ""}`}
+                >
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="2"></path>
+                </svg>
+              </div>
+
+              {/* เมนูย่อย */}
+              {isSubmenuOpen && (
+                <motion.div
+                  className={`absolute top-[3rem] left-0 z-50 rounded-[15px] bg-white px-[2rem] py-[.75rem] shadow-lg ${
+                    isSticky ? "left-[-2rem]" : ""
+                  }`}
+                  initial={{ opacity: 0, y: 10 }} // เริ่มต้นด้วยความโปร่งใส 0 และเลื่อนขึ้น
+                  animate={{ opacity: 1, y: 0 }} // เมื่อแสดงผลจะโปร่งใส 1 และเลื่อนลง
+                  exit={{ opacity: 0, y: -10 }} // เมื่อซ่อนจะกลับไปโปร่งใส 0 และเลื่อนขึ้น
+                  transition={{ duration: 0.3 }} // ตั้งค่าความเร็วของอนิเมชัน
+                  style={{ width: menuWidth + 100 }} // กำหนดความกว้างของเมนูย่อยให้เท่ากับเมนูหลัก
+                >
+                  <div className="grid grid-cols-1 gap-8 p-10 md:grid-cols-2">
+                    {/* ส่วนที่ 1 */}
+                    <div>
+                      <h3 className="mb-4 flex items-center gap-2 text-lg font-bold">
+                        {" "}
+                        <img
+                          src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c1500ce4734_icons%3DCustomer%20Service.svg"
+                          alt=""
+                        />
+                        Customer Service
+                      </h3>
+                      <ul className="space-y-2">
+                        <li className="flex items-center gap-2">
+                          <span>Customer Conversion</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span>Customer Onboarding</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span>Customer Support</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span>Technical Customer Support</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span>Customer Renewals</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    {/* ส่วนที่ 2 */}
+                    <div>
+                      <ul className="space-y-2">
+                        <li className="flex items-center gap-2">
+                          <span>Finance & Accounting</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span>Content Moderation</span>
+                        </li>
+                        <li className="flex items-center gap-2">
+                          <span>Data Processing</span>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+
+            <div className="relative" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
+              {/* เมนูหลัก */}
+              <div className="text-ninja-dark flex cursor-pointer items-center gap-2 font-bold">
+                Industries
+                <svg
+                  width="10"
+                  height="7"
+                  viewBox="0 0 10 7"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg "
+                  className={`transition-all duration-300 ${isSubmenuOpen2 ? "rotate-180" : ""}`}
+                >
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="2"></path>
+                </svg>
+              </div>
+
+              {/* เมนูย่อยที่ 2 */}
+              {isSubmenuOpen2 && (
+                <motion.div
+                  className={`absolute top-[3rem] left-[-20rem] z-50 rounded-[15px] bg-white px-[2rem] py-[.75rem] shadow-lg ${
+                    isSticky ? "left-[-21rem]" : ""
+                  }`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                  style={{ width: menuWidth + 400 }}
+                >
+                  {/* ส่วนที่ 2 */}
+                  <div className="grid grid-cols-3 gap-x-10 gap-y-4 p-10">
+                    <div className="cursor-pointer rounded-md p-2 px-[1.5rem] pt-[1rem] pb-[3px] font-bold transition hover:bg-[#bfc1b9] hover:shadow-2xl">
+                      SaaS
+                    </div>
+                    <div className="cursor-pointer rounded-md p-2 px-[1.5rem] pt-[1rem] pb-[3px] font-bold transition hover:bg-[#bfc1b9] hover:shadow-2xl">
+                      AI
+                    </div>
+                    <div className="cursor-pointer rounded-md p-2 px-[1.5rem] pt-[1rem] pb-[3px] font-bold transition hover:bg-[#bfc1b9] hover:shadow-2xl">
+                      Ecommerce
+                    </div>
+                    <div className="cursor-pointer rounded-md p-2 px-[1.5rem] pt-[1rem] pb-[3px] font-bold transition hover:bg-[#bfc1b9] hover:shadow-2xl">
+                      Healthcare
+                    </div>
+                    <div className="cursor-pointer rounded-md p-2 px-[1.5rem] pt-[1rem] pb-[3px] font-bold transition hover:bg-[#bfc1b9] hover:shadow-2xl">
+                      Supply Chain & Logistics
+                    </div>
+                    <div className="cursor-pointer rounded-md p-2 px-[1.5rem] pt-[1rem] pb-[3px] font-bold transition hover:bg-[#bfc1b9] hover:shadow-2xl">
+                      Fintech
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+            <a href="#how-it-works" className="text-ninja-dark font-bold">
               How it Works
             </a>
-            <a href="#about" className="text-ninja-dark hover:text-ninja-red font-bold">
-              About
-            </a>
-            <a href="#resources" className="text-ninja-dark hover:text-ninja-red font-bold">
+            <div className="relative" onMouseEnter={handleMouseEnter3} onMouseLeave={handleMouseLeave3}>
+              {/* เมนูหลัก */}
+              <div className="text-ninja-dark flex cursor-pointer items-center gap-2 font-bold">
+                About
+                <svg
+                  width="10"
+                  height="7"
+                  viewBox="0 0 10 7"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                  className={`transition-all duration-100 ${isSubmenuOpen3 ? "rotate-180" : ""}`}
+                >
+                  <path d="M1 1L5 5L9 1" stroke="currentColor" strokeWidth="2"></path>
+                </svg>
+              </div>
+
+              {/* เมนูย่อยที่ 2 */}
+              {isSubmenuOpen3 && (
+                <motion.div
+                  className={`absolute top-[3rem] left-[-3rem] z-50 w-[15rem] rounded-[15px] bg-white px-[2rem] py-[.75rem] shadow-lg ${
+                    isSticky ? "left-[-21rem]" : ""
+                  }`}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {/* ส่วนที่ 2 */}
+                  <div className="grid gap-x-10 gap-y-4 p-2">
+                    <div className="] cursor-pointer rounded-md font-bold hover:shadow-2xl">About us</div>
+                    <hr />
+                    <div className="] cursor-pointer rounded-md font-bold hover:shadow-2xl">Careers</div>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+            <a href="#resources" className="text-ninja-dark font-bold">
               Resources
             </a>
           </nav>
@@ -450,7 +673,7 @@ export default function HomePage() {
           <div className="hidden items-center space-x-4 lg:flex">
             <Link
               href="/get-started"
-              className="rounded-full bg-[#0c3a23] px-[1.5rem] py-[.75rem] text-sm font-semibold text-white"
+              className="rounded-full border border-[#0c3a23] bg-[#0c3a23] px-[1.8rem] py-[.8rem] text-[1rem] font-semibold text-white transition-all hover:bg-[#0c3a2300] hover:text-black"
             >
               Get Started
             </Link>
@@ -495,37 +718,50 @@ export default function HomePage() {
           initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
           animate={controls1} // ใช้ controls เพื่อควบคุม animation
           transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
-          className="mx-auto max-w-2xl"
+          className="mx-auto"
         >
-          <p className="mx-auto mb-8 max-w-2xl text-lg">
-            Quickly and securely scale your team with agile, highly customizable outsourcing solutions that power your
-            growth.
+          <p className="mx-auto mb-8 text-[1.625rem]">
+            Quickly and securely scale your team with agile, highly <br /> customizable outsourcing solutions that power
+            your growth.
           </p>
-          <h1 className="f_header mb-4 text-5xl font-light lg:text-7xl">Outsourcing worth talking about</h1>
+          <h1 className="f_header mb-4 border-b-1 border-[#BFC1B9] pb-[7rem] text-5xl font-[500] lg:text-[5rem]">
+            Outsourcing worth talking about
+          </h1>
         </motion.div>
         {/* Icons for Services (Placeholder) */}
-        <hr className="my-8 border-t border-gray-300" />
-        <div>
+        {/* <hr className="my-8 border-t border-gray-300" /> */}
+        <div className="pt-[3.5rem]">
           <h2 className="mb-2 text-2xl font-bold">Which outsourcing solutions are you looking for?</h2>
           <p className="text-sm">Choose as many as you need.</p>
         </div>
-        <div className="mx-auto mb-4 grid grid-cols-2 gap-4 py-4 sm:grid-cols-3 md:grid-cols-6">
+        <div className="mx-auto mb-4 grid grid-cols-1 gap-4 py-4 md:grid-cols-3 lg:grid-cols-6">
           {img_data.map((img, i) => (
             <div
               onClick={() => handleCheckboxChange(i)}
               key={i}
-              className={`cursor-pointer relative rounded-lg p-4 text-center text-sm transition-all ${
+              className={`relative grid cursor-pointer gap-y-2 rounded-lg px-[2rem] py-[1.5rem] text-center text-sm transition-all hover:bg-[#fffcfa] ${
                 checkedItems[i] ? "bg-[#fffcfa]" : "bg-[#fffcfa80]"
               } hover:shadow-lg`}
             >
-              <Image src={img.src} alt={img.alt} width={img.width} height={img.height} className="mx-auto" />
-              <p className="mt-2 font-bold">{img.alt}</p>
-              <input
-                type="checkbox"
-                checked={checkedItems[i]}
-                onChange={() => handleCheckboxChange(i)}
-                className="absolute top-0 right-0 m-2 bg-none"
+              <Image
+                src={img.src}
+                alt={img.alt}
+                width={img.width}
+                height={img.height}
+                className="mx-auto h-[8rem] w-[7.5rem]"
               />
+              <p className="mt-2 text-[1rem] font-bold">{img.alt}</p>
+
+              <div className="absolute top-0 right-0 m-2 h-[1rem] w-[1rem] rounded-[4px] border-[1px] border-[#58595c]"></div>
+
+              {/* Checkmark Icon */}
+              {checkedItems[i] && (
+                <img
+                  src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c4278ce47b4_Select%20Checkmark.svg"
+                  alt="Checkmark Icon"
+                  className="absolute top-1 right-[3px] m-2 h-[.4375rem] w-[.625rem]"
+                />
+              )}
             </div>
           ))}
         </div>
@@ -551,10 +787,8 @@ export default function HomePage() {
         </div>
         <div className="mt-[5rem] items-center justify-between gap-4 rounded-2xl bg-[#bfc1b9] p-[2.5rem] lg:flex">
           <div>
-            <p className="text-[1.625rem]">
-              Driving better business results <br />
-              for 200+ companies.
-            </p>
+            <p className="text-[1.625rem]">Driving better business results </p>
+            <p className="text-start text-[1.625rem]">for 200+ companies.</p>
           </div>
           <div className="text-center">
             <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
@@ -857,7 +1091,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-stone bg-[#bfc1b9] py-[10rem]">
+      <section className="bg-stone bg-[#bfc1b9] px-[7.5vw] py-[10rem]">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
             {/* Left Content */}
@@ -911,7 +1145,7 @@ export default function HomePage() {
                       ))}
                       <a
                         href="/how-it-works"
-                        className="mt-4 inline-block w-[100%] rounded-full bg-green-600 px-6 py-3 text-center text-white transition hover:bg-green-700 lg:w-auto"
+                        className="mt-4 inline-block w-[100%] rounded-full bg-green-600 px-6 py-3 text-center text-white transition hover:bg-green-700"
                       >
                         View details
                       </a>
@@ -936,7 +1170,7 @@ export default function HomePage() {
                       ))}
                       <a
                         href="/how-it-works"
-                        className="mt-4 inline-block w-[100%] rounded-full bg-green-600 px-6 py-3 text-center text-white transition hover:bg-green-700 lg:w-auto"
+                        className="mt-4 inline-block w-[100%] rounded-full bg-green-600 px-6 py-3 text-center text-white transition hover:bg-green-700"
                       >
                         View details
                       </a>
@@ -948,7 +1182,7 @@ export default function HomePage() {
           </div>
         </div>
       </section>
-      <section className="w-full bg-[#fffcfa] py-16">
+      <section className="w-full bg-[#fffcfa] px-[7.5vw] py-16">
         <div className="container mx-auto px-4">
           <div className="flex flex-col items-center gap-12 lg:flex-row">
             <div className="flex-1 text-center md:text-left">
@@ -992,9 +1226,9 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="w-full bg-[#fffcfa] py-16">
+      <section className="w-full bg-[#fffcfa] px-[7.5vw] py-16">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col-reverse items-center gap-12 lg:flex-row">
+          <div className="flex flex-col-reverse items-center gap-[7.5vw] lg:flex-row">
             <div className="flex flex-1 justify-center overflow-x-hidden md:justify-start">
               <Image
                 src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c7fc2ce4791_Stock%20Image__Conference%20Room.webp"
@@ -1035,7 +1269,7 @@ export default function HomePage() {
             priority
           />
         </div>
-        <div className="w-full bg-[#F7E1D2]">
+        <div className="w-full bg-[#F7E1D2] px-[7.5vw]">
           <div className="container mx-auto px-4 py-16">
             <div className="flex flex-col items-center gap-12 lg:flex-row">
               <div className="flex-1 text-center md:text-left">
