@@ -392,8 +392,8 @@ export default function HomePage() {
           </Link>
           <nav
             ref={navRef}
-            className={`hidden space-x-8 lg:flex ${
-              isSticky ? "rounded-[200px] border-1 bg-white px-[2rem] py-[.75rem]" : ""
+            className={`mr-[3.5rem] ml-[-1rem] hidden items-center space-x-8 lg:flex ${
+              isSticky ? "rounded-[200px] border-1 bg-white px-[2rem]" : ""
             }`}
           >
             <div className="relative" onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
@@ -475,7 +475,7 @@ export default function HomePage() {
 
             <div className="relative" onMouseEnter={handleMouseEnter2} onMouseLeave={handleMouseLeave2}>
               {/* เมนูหลัก */}
-              <div className="text-ninja-dark flex cursor-pointer items-center gap-2 font-bold">
+              <div className="text-ninja-dark flex cursor-pointer items-center gap-2 p-[0.75rem_1rem] font-bold">
                 Industries
                 <svg
                   width="10"
@@ -568,7 +568,7 @@ export default function HomePage() {
               Resources
             </a>
           </nav>
-          <div className="lg:hidden">
+          <div className="p-[0.75rem_1rem] lg:hidden">
             {/* ปุ่ม Burger */}
             <button
               onClick={() => setIsOpen(!isOpen)}
@@ -788,7 +788,7 @@ export default function HomePage() {
             transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
             className="mx-auto py-[5rem]"
           >
-            <p className="mx-auto mb-8 !text-[1.125rem] font-[500] lg:text-[1.625rem]">
+            <p className="!mb-0 !text-center text-[1.125rem] font-[500] lg:mb-auto lg:max-w-auto lg:text-[1.625rem]">
               Quickly and securely scale your team with agile, highly <br className="hidden lg:block" /> customizable
               outsourcing solutions that power your growth.
             </p>
@@ -814,7 +814,7 @@ export default function HomePage() {
             className="md:no-scrollbar cursor-pointer md:overflow-x-auto md:whitespace-nowrap md:[-ms-overflow-style:none] md:[scrollbar-width:none]"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
-            <div className="justify-between gap-[1.5rem] lg:flex">
+            <div className="flex flex-col justify-between gap-[1.5rem] lg:flex-row">
               {img_data.map((img, i) => (
                 <div
                   onClick={() => handleCheckboxChange(i)}
@@ -839,7 +839,7 @@ export default function HomePage() {
                       height={120}
                       className="h-[7.5rem] w-[7.5rem] rounded-md object-cover"
                     /> */}
-                    <p className="mt-[1rem] text-center text-[1rem] font-bold">{img.alt}</p>
+                    <p className="mt-[1rem] text-center text-[1rem] !font-[700]">{img.alt}</p>
                   </div>
 
                   <div
@@ -886,7 +886,7 @@ export default function HomePage() {
           <div className="mt-[5rem] items-center justify-between gap-4 rounded-2xl bg-[#bfc1b9] p-[2.5rem] lg:flex">
             <div>
               <p className="text-center text-[1.125rem] lg:text-start lg:text-[1.625rem]">
-                Driving better business results for 200+ companies.
+                Driving better business results <br /> for 200+ companies.
               </p>
             </div>
             <div className="text-center">
@@ -1075,7 +1075,7 @@ export default function HomePage() {
             Why our clients stick with us
           </p>
           <div className="">
-            <div className="relative rounded-lg border border-gray-200 bg-[#f7e1d2] p-6 shadow-md transition-shadow hover:shadow-lg">
+            <div className="relative rounded-lg border border-gray-200 bg-[#f7e1d2] p-6 py-[2.5rem] shadow-md transition-shadow hover:shadow-lg">
               <div className="absolute top-0 right-0">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0ce154ce4785_Testimonial%20Scribble%2002.svg"
@@ -1096,7 +1096,7 @@ export default function HomePage() {
                 "SupportNinja has really been flexible with us as we’re growing the <br /> business, and have been
                 really responsive and accommodating. They’ve <br /> been integral to helping our business grow."
               </p>
-              <h3 className="px-[5rem] text-center text-xl font-bold text-gray-900">Pam Schwab</h3>
+              <h3 className="px-[5rem] text-center text-xl text-gray-900">Pam Schwab</h3>
               <p className="px-[5rem] text-center text-sm text-gray-600">VP of Quality & Customer Care, SymmetryRx</p>
 
               <div className="flex items-center gap-10 px-[3.5rem]">
@@ -1156,12 +1156,7 @@ export default function HomePage() {
           <img
             src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c0fc8ce4798_Globe%20Lines.svg"
             alt="Globe Background"
-            className="absolute inset-0 mx-auto hidden w-[80rem] md:block"
-          />
-          <img
-            src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c275cce47b7_Mobile%20Globe%20Lines.svg"
-            alt="Mobile Globe Background"
-            className="mx-auto block w-full max-w-xs md:hidden"
+            className="absolute inset-0 mx-auto w-[100%] md:block"
           />
         </div>
         <div className="px-[7.5vw]">
@@ -1196,7 +1191,7 @@ export default function HomePage() {
               transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและ
               className="relative z-10 flex flex-col gap-[1.5rem]"
             >
-              <h2 className="f_header mb-4 text-center text-[3.75rem] leading-[1.2] font-[500]">
+              <h2 className="f_header lg:py-auto mb-4 py-[3.5rem] text-center text-[2.75rem] leading-[1.2] font-[500] lg:text-[3.75rem]">
                 Spanning a wider world of talent
               </h2>
               <p className="mb-6 text-lg text-gray-700">
@@ -1240,97 +1235,88 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-stone bg-[#bfc1b9] px-[7.5vw] py-[10rem]">
-        <div className="px-4">
-          <div className="grid grid-cols-1 gap-[7.5vw] lg:grid-cols-2">
+      <section className="bg-[#bfc1b9] py-[10rem]">
+        <div className="mx-auto px-[7.5vw]">
+          <div className="grid grid-cols-1 items-start gap-20 lg:grid-cols-2">
             {/* Left Content */}
-            <motion.div
-              ref={ref7} // อ้างอิง div นี้
-              initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
-              animate={controls7} // ใช้ controls เพื่อควบคุม animation
-              transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและ easing
-              className="flex flex-col justify-center"
-            >
-              <h2 className="f_header mb-4 text-3xl font-bold lg:text-[3.75rem]">
+            <div className="flex flex-col justify-start pt-4">
+              <h2 className="f_header mb-6 text-[2.75rem] leading-tight font-[500] lg:text-[4rem]">
                 Our customized <br /> approach
               </h2>
-              <p className="text-lg text-gray-700">
-                We tailor our strategies and services based on your roadblocks and needs, delivering a strategic
-                outsourcing playbook — inclusive of technology, talent, and timing — that drives your business forward.
+              <p className="text-[1rem] leading-relaxed font-[500] lg:text-[1.25rem]">
+                We tailor our strategies and services based on your
+                <br /> roadblocks and needs, delivering a strategic outsourcing
+                <br /> playbook — inclusive of technology, talent, and timing —<br /> that drives your business forward.
               </p>
-            </motion.div>
+            </div>
 
             {/* Right Tabs */}
             <div>
-              <h3 className="mb-6 text-xl font-semibold">Get set up in 5 easy steps</h3>
-              <div className="tabs">
-                {/* Tabs Menu */}
-                <div className="flex space-x-4 border-b">
-                  <button
-                    className="border-b-2 border-green-600 px-4 py-2 text-sm font-medium text-gray-700"
-                    onClick={() => setActiveTab("management")}
-                  >
-                    Management-as-a-Service
-                  </button>
-                  <button
-                    className="px-4 py-2 text-sm font-medium text-gray-700 hover:border-b-2 hover:border-green-600"
-                    onClick={() => setActiveTab("talent")}
-                  >
-                    Talent-as-a-Service
-                  </button>
-                </div>
+              <h3 className="mb-8 text-2xl font-semibold">Get set up in 5 easy steps</h3>
 
-                {/* Tabs Content */}
-                <div className="mt-6">
-                  {activeTab === "management" && (
-                    <div className="space-y-4">
-                      {[
+              {/* Tab Buttons */}
+              <div className="mb-8 flex gap-4">
+                <button
+                  className={`flex-1 cursor-pointer rounded-full px-8 text-[.875rem] leading-[1.2] shadow-md lg:text-[1rem] ${
+                    activeTab === "management" ? "bg-white" : "bg-[#d3d4cd]"
+                  }`}
+                  onClick={() => setActiveTab("management")}
+                >
+                  Management-as-a-Service
+                </button>
+                <button
+                  className={`flex-1 cursor-pointer rounded-full px-8 py-1 text-base font-medium shadow-md ${
+                    activeTab === "talent" ? "bg-white" : "bg-[#d3d4cd]"
+                  }`}
+                  onClick={() => setActiveTab("talent")}
+                >
+                  Talent-as-a-Service
+                </button>
+              </div>
+
+              {/* Tab Content */}
+              <div className="relative">
+                {/* Vertical line behind the circles */}
+                <div className="h-[calc(5 * 6rem)] pointer-events-none absolute top-[3rem] left-[2.5rem] z-0 w-0.5 bg-white" />
+                <div className="relative z-10 space-y-10">
+                  {(activeTab === "management"
+                    ? [
                         "Deep dive with us into your goals and hiring needs.",
                         "We’ll work with you to design a customized solution for your business.",
                         "Once you're on board, we’ll source the best talent for you.",
                         "We’ll create a customized training program that aligns with your goals.",
                         "Sit back and enjoy the efficiencies ahead — it's grow time.",
-                      ].map((step, index) => (
-                        <div key={index} className="flex items-center gap-2">
-                          <div className="flex aspect-square w-10 items-center justify-center rounded-full bg-indigo-50 text-black">
-                            {index + 1}
-                          </div>
-                          <p className="text-gray-700">{step}</p>
-                        </div>
-                      ))}
-                      <button className="w-full cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
-                        <h3 className="font-bold">View details</h3>
-                      </button>{" "}
-                    </div>
-                  )}
-
-                  {activeTab === "talent" && (
-                    <div className="space-y-4">
-                      {[
+                      ]
+                    : [
                         "Deep dive with us into your goals and hiring needs.",
                         "Access a private portal with hand-picked talent to browse and shortlist candidates.",
                         "Start interviewing.",
                         "Refine your list until you have the right team.",
                         "With us beside you, welcome your new team aboard and prepare for scale!",
-                      ].map((step, index) => (
-                        <div key={index} className="flex items-start space-x-4">
-                          <div className="flex h-8 w-8 items-center justify-center rounded-full bg-indigo-50 text-black">
-                            {index + 1}
-                          </div>
-                          <p className="text-gray-700">{step}</p>
-                        </div>
-                      ))}
-                      <button className="w-full cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
-                        <h3 className="font-bold">View details</h3>
-                      </button>{" "}
+                      ]
+                  ).map((step, index) => (
+                    <div key={index} className="!mb-0 flex items-start gap-6 pb-[1.25rem]">
+                      {/* Fixed perfect circle */}
+                      <div className="relative z-10 flex h-[48px] w-[48px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-lg leading-none font-semibold shadow-md">
+                        {index + 1}
+                      </div>
+                      <div className="absolute top-4 right-auto -bottom-8 left-6 w-[2px] bg-white"></div>
+                      <h4 className="!mt-0 text-[1rem] leading-relaxed lg:text-[1.25rem]">{step}</h4>
                     </div>
-                  )}
+                  ))}
                 </div>
+                <a
+                  href="/how-it-works"
+                  className="mt-10 inline-block w-full rounded-full bg-[#0f3d2e] px-8 py-5 text-center text-xl font-semibold text-white transition hover:bg-[#0c3427]"
+                >
+                  View details
+                </a>
               </div>
             </div>
           </div>
         </div>
       </section>
+
       <section className="w-full bg-[#fffcfa] px-[7.5vw] py-16">
         <div className="px-4">
           <div className="flex flex-col items-center gap-12 lg:flex-row">
