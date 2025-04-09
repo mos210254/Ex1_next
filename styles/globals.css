@@ -1,9 +1,30 @@
 @import url("https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
-
+@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
 body {
   font-size: 16px;
+  color: #333;
 }
 
 .f_header {
   font-family: "Playfair Display", serif;
+}
+
+.container {
+  margin: 0 auto;
+  padding-right: 7.5vw;
+  padding-left: 7.5vw;
+}
+
+p {
+  margin: 0;
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 500;
+}
+
+h1 {
+  margin-bottom: 1.5rem;
+  font-size: 5rem;
+  line-height: 1.2;
 }

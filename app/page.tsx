@@ -339,11 +339,44 @@ export default function HomePage() {
     }, 200) // หน่วงเวลา 200ms
   }
   const [isHovered, setIsHovered] = useState(false)
+
+  const scrollRef = useRef<HTMLDivElement>(null!) // non-null assertion
+
+  const [isDragging, setIsDragging] = useState(false)
+  const [startX, setStartX] = useState(0)
+  const [scrollLeft, setScrollLeft] = useState(0)
+
+  const handleMouseDown = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (window.innerWidth >= 768) {
+      // ทำเฉพาะ md ขึ้นไป
+      setIsDragging(true)
+      setStartX(e.pageX - scrollRef.current.offsetLeft)
+      setScrollLeft(scrollRef.current.scrollLeft)
+    }
+  }
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!isDragging) return
+    e.preventDefault()
+    const x = e.pageX - scrollRef.current.offsetLeft
+    const walk = x - startX
+    scrollRef.current.scrollLeft = scrollLeft - walk
+  }
+
+  const handleMouseUp = () => {
+    setIsDragging(false)
+  }
+
   return (
     <div className="flex min-h-screen flex-col bg-[#f7e1d2]">
+      {/* <div className="flex justify-center bg-[#EE4B4A] px-[7.5vw] py-[1rem] text-[.8125rem] leading-[1.6] text-white">
+        <p className="pb-[.125rem] text-[.9rem] leading-[1.7]">
+          The 2025 CX Outsourcing Report is Here! Access the Full Report
+        </p>
+      </div> */}
       {/* Header/Navigation */}
-      <header className={`sticky top-0 z-50 pt-[1.5rem]`}>
-        <div className={`mx-auto flex items-center justify-between px-[7.5vw] py-4 transition-all duration-300`}>
+      <header className={`sticky top-0 z-50`}>
+        <div className={`mx-auto flex items-center justify-between px-[7.5vw] pt-[1.5rem] transition-all duration-300`}>
           <Link
             href="/"
             className={`z-50 flex items-center transition-all duration-300 ${isSticky ? "invisible" : "flex"}`}
@@ -351,10 +384,10 @@ export default function HomePage() {
             <Image
               src="https://ext.same-assets.com/1779142936/3292783992.svg"
               alt="Support Ninja | Full Logo"
-              width={192}
-              height={40}
+              width={216}
+              height={45}
               priority
-              className="w-[12rem]"
+              className=""
             />
           </Link>
           <nav
@@ -704,10 +737,10 @@ export default function HomePage() {
               </div>
             )}
           </div>
-          <div className="hidden items-center space-x-4 lg:flex">
+          <div className="hidden items-center space-x-4 text-center lg:flex">
             <Link
               href="/get-started"
-              className="rounded-full border border-[#0c3a23] bg-[#0c3a23] px-[1.8rem] py-[.8rem] text-[1rem] font-semibold text-white transition-all hover:bg-[#0c3a2300] hover:text-black"
+              className="rounded-[68px] border border-[#0c3a23] bg-[#0c3a23] px-[1.5rem] py-[.75rem] text-[1rem] font-[600] text-white transition-all hover:bg-[#0c3a2300] hover:text-black"
             >
               Get Started
             </Link>
@@ -746,96 +779,129 @@ export default function HomePage() {
       )} */}
 
       {/* Hero Section */}
-      <section className="bg-[#f7e1d2] px-[7.5vw] py-16 text-center">
-        <motion.div
-          ref={ref1} // อ้างอิง div นี้
-          initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
-          animate={controls1} // ใช้ controls เพื่อควบคุม animation
-          transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
-          className="mx-auto"
-        >
-          <p className="mx-auto mb-8 text-[1.625rem]">
-            Quickly and securely scale your team with agile, highly <br /> customizable outsourcing solutions that power
-            your growth.
-          </p>
-          <h1 className="f_header mb-4 border-b-1 border-[#BFC1B9] pb-[7rem] text-5xl font-[500] lg:text-[5rem]">
-            Outsourcing worth talking about
-          </h1>
-        </motion.div>
-        {/* Icons for Services (Placeholder) */}
-        {/* <hr className="my-8 border-t border-gray-300" /> */}
-        <div className="pt-[3.5rem]">
-          <h2 className="mb-2 text-2xl font-bold">Which outsourcing solutions are you looking for?</h2>
-          <p className="text-sm">Choose as many as you need.</p>
-        </div>
-        <div className="mx-auto mb-4 grid grid-cols-1 gap-4 py-4 md:grid-cols-3 lg:grid-cols-6">
-          {img_data.map((img, i) => (
-            <div
-              onClick={() => handleCheckboxChange(i)}
-              key={i}
-              className={`relative grid cursor-pointer gap-y-2 rounded-lg px-[2rem] py-[1.5rem] text-center text-sm transition-all hover:bg-[#fffcfa] ${
-                checkedItems[i] ? "bg-[#fffcfa]" : "bg-[#fffcfa80]"
-              } hover:shadow-lg`}
-            >
-              <Image
-                src={img.src}
-                alt={img.alt}
-                width={img.width}
-                height={img.height}
-                className="mx-auto h-[8rem] w-[7.5rem]"
-              />
-              <p className="mt-2 text-[1rem] font-bold">{img.alt}</p>
-
-              <div className="absolute top-0 right-0 m-2 h-[1rem] w-[1rem] rounded-[4px] border-[1px] border-[#58595c]"></div>
-
-              {/* Checkmark Icon */}
-              {checkedItems[i] && (
-                <img
-                  src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c4278ce47b4_Select%20Checkmark.svg"
-                  alt="Checkmark Icon"
-                  className="absolute top-1 right-[3px] m-2 h-[.4375rem] w-[.625rem]"
-                />
-              )}
-            </div>
-          ))}
-        </div>
-        <div>
-          <Link
-            href="/get-started"
-            className="f_header bg-ninja-red group inline-flex w-[100%] items-center justify-between rounded-full px-6 py-3 font-serif text-lg font-normal text-white transition-colors hover:bg-[#2b2c30] lg:w-auto"
+      <section className="bg-[#f7e1d2] text-center">
+        <div className="container">
+          <motion.div
+            ref={ref1} // อ้างอิง div นี้
+            initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
+            animate={controls1} // ใช้ controls เพื่อควบคุม animation
+            transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
+            className="mx-auto py-[5rem]"
           >
-            Get started
-            <span className="text-ninja-red relative ml-3 flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white">
-              <svg
-                className="group-hover:animate-arrow-loop h-4 w-4 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </span>
-          </Link>
+            <p className="mx-auto mb-8 !text-[1.125rem] font-[500] lg:text-[1.625rem]">
+              Quickly and securely scale your team with agile, highly <br className="hidden lg:block" /> customizable
+              outsourcing solutions that power your growth.
+            </p>
+            <h3 className="f_header mb-4 text-[3rem] font-[500] lg:text-[5rem]">Outsourcing worth talking about</h3>
+          </motion.div>
+          {/* Icons for Services (Placeholder) */}
+          {/* <hr className="my-8 border-t border-gray-300" /> */}
         </div>
-        <div className="mt-[5rem] items-center justify-between gap-4 rounded-2xl bg-[#bfc1b9] p-[2.5rem] lg:flex">
-          <div>
-            <p className="text-[1.625rem]">Driving better business results </p>
-            <p className="text-start text-[1.625rem]">for 200+ companies.</p>
+
+        <div className="px-[7.5vw]">
+          <div className="mb-[2.5rem] border-t-1 border-[#BFC1B9] pt-[3.5rem]">
+            <h2 className="mb-2 text-[1.125rem] font-bold lg:text-2xl">
+              Which outsourcing solutions are you looking for?
+            </h2>
+            <p className="text-sm">Choose as many as you need.</p>
           </div>
-          <div className="text-center">
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
-              {img_data2.map((img, i) => (
-                <div key={i} className="flex items-center justify-center">
-                  <img src={img.src} alt={img.alt} className="w-[6.5rem] object-contain" />
+          <div
+            ref={scrollRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            className="md:no-scrollbar cursor-pointer md:overflow-x-auto md:whitespace-nowrap md:[-ms-overflow-style:none] md:[scrollbar-width:none]"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
+            <div className="justify-between gap-[1.5rem] lg:flex">
+              {img_data.map((img, i) => (
+                <div
+                  onClick={() => handleCheckboxChange(i)}
+                  key={i}
+                  className={` ${
+                    checkedItems[i]
+                      ? "bg-[#fffcfa] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1)]"
+                      : "bg-[#fffcfa80]"
+                  } relative flex flex-col items-center justify-center gap-[1rem] rounded-[.75rem] bg-[#fffcfa80] py-[1.5rem] transition-all hover:bg-[#fffcfa] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1)] lg:h-[230px] lg:w-[311px]`}
+                >
+                  <div className="flex items-center justify-center gap-[1rem] lg:flex-col">
+                    {" "}
+                    <img
+                      className="h-[5rem] w-[5rem] rounded-md object-cover lg:h-[7.5rem] lg:w-[7.5rem]"
+                      src={img.src}
+                      alt=""
+                    />
+                    {/* <Image
+                      src={img.src}
+                      alt={img.alt}
+                      width={120}
+                      height={120}
+                      className="h-[7.5rem] w-[7.5rem] rounded-md object-cover"
+                    /> */}
+                    <p className="mt-[1rem] text-center text-[1rem] font-bold">{img.alt}</p>
+                  </div>
+
+                  <div
+                    className={`${
+                      checkedItems[i] ? "" : ""
+                    } absolute top-[.5rem] right-[.5rem] m-2 h-[1rem] w-[1rem] rounded-[4px] border-[1px] border-[#58595c] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1)]`}
+                  ></div>
+
+                  {/* Checkmark Icon */}
+                  {checkedItems[i] && (
+                    <img
+                      src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c4278ce47b4_Select%20Checkmark.svg"
+                      alt="Checkmark Icon"
+                      className="absolute top-[.8rem] right-[.65rem] m-2 h-[.4375rem] w-[.625rem]"
+                    />
+                  )}
                 </div>
               ))}
             </div>
           </div>
+          <div className="mt-[2rem]">
+            <Link
+              href="/get-started"
+              className="f_header bg-ninja-red group inline-flex w-[100%] items-center justify-between gap-[2rem] rounded-[4.25rem] p-[0.7rem_0.6rem_0.7rem_1.7rem] font-serif text-[1.375rem] font-normal text-white transition-colors hover:bg-[#2b2c30] lg:w-auto"
+            >
+              Get started
+              <span className="text-ninja-red relative ml-3 flex h-[2.5rem] w-[2.5rem] items-center justify-center overflow-hidden rounded-[48px] bg-white">
+                <svg
+                  className="group-hover:animate-arrow-loop h-[12px] w-[12px] transition-transform duration-300"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="4"
+                  viewBox="0 0 24 24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </span>
+            </Link>
+          </div>
+        </div>
+
+        <div className="px-[7.5vw]">
+          <div className="mt-[5rem] items-center justify-between gap-4 rounded-2xl bg-[#bfc1b9] p-[2.5rem] lg:flex">
+            <div>
+              <p className="text-center text-[1.125rem] lg:text-start lg:text-[1.625rem]">
+                Driving better business results for 200+ companies.
+              </p>
+            </div>
+            <div className="text-center">
+              <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-6">
+                {img_data2.map((img, i) => (
+                  <div key={i} className="flex items-center justify-center">
+                    <img src={img.src} alt={img.alt} className="w-[6.5rem] object-contain" />
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
         </div>
       </section>
-      <div className="bg-[#fffcfa]">
+      <div className="mt-[4rem] bg-[#fffcfa]">
         <Image
           src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0cc5c4ce4784_Bottom%20Squiggle.svg"
           alt="Project Logo"
@@ -847,7 +913,7 @@ export default function HomePage() {
       </div>
 
       {/* Client Logos Section */}
-      <section className="bg-[#fffcfa] px-[7.5vw] py-16">
+      <section className="bg-[#fffcfa] px-[7.5vw] pt-[5rem]">
         <div className="grid-cols-2 gap-32 lg:grid">
           <div className="flex items-center justify-center">
             <Image
@@ -864,169 +930,211 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
             animate={controls2} // ใช้ controls เพื่อควบคุม animation
             transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
+            className="max-w-[32.5rem]"
           >
-            <p className="f_header mb-2 text-[3.75rem]">Free up resources, accelerate growth, and solve for scale.</p>
-            <p className="mb-4 text-lg">
+            <h3 className="f_header !mb-[2rem] text-[2.5rem] lg:text-[3.75rem] lg:leading-[1.2]">
+              Free up resources, accelerate growth, and solve for scale.
+            </h3>
+            <p className="!mb-[1rem] !text-[1.25rem] font-[400]">
               At SupportNinja, we combine cutting-edge technology with value-centricity to foster high-performing,
               reliable teams that turn growing pains into efficient pathways to profitability.
-            </p>
-            <p className="mb-4 text-lg">
+              <br />
+              <br />
               Our customized, agile, AI-enabled solutions don’t just deliver cost savings — they also help you achieve
               key business outcomes.
-            </p>
-            <p className="mb-4 text-lg">
+              <br />
+              <br />
               We work closely with you to continually adjust strategies, realize efficiencies, and drive scale according
               to your unique needs. Plus, flexibility is baked in from day one, so you’re never locked into rigid,
               long-term contracts.
+              <br />
+              <br />
+              Now that’s outsourcing worth talking about.
             </p>
-            <p className="text-lg">Now that’s outsourcing worth talking about.</p>
           </motion.div>
         </div>
       </section>
 
       {/* Don't grow it alone section */}
-      <section className="bg-[#fffcfa] px-[7.5vw] py-16">
-        <div className="flex grid-cols-2 flex-col-reverse gap-2 lg:grid lg:px-[7.5vw]">
-          <motion.div
-            ref={ref3} // อ้างอิง div นี้   >
-            initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
-            animate={controls3} // ใช้ controls เพื่อควบคุม animation
-            transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
-          >
-            <p className="f_header mb-2 text-[3.75rem]">Don’t grow it alone</p>
-            <p className="mb-4 text-lg">
-              Don't let headcount become a headache. We’ll connect you with talent that meets your needs.
-            </p>
-            <p className="mb-4 text-lg">
-              Your dedicated new team members will become experts in your world — your customers, your tech, your data,
-              your systems — so they can expand on what you’ve built.
-            </p>
-          </motion.div>
-          <div className="flex items-center justify-start">
-            <Image
-              src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c4794ce4765_Illustration%3DPlant%201.svg"
-              alt="Project Logo"
-              width={160} // ลดขนาดความกว้าง
-              height={40} // ลดขนาดความสูง
-              className="lg:mx-auto"
-            />
+      <section className="bg-[#fffcfa] py-16">
+        <div className="container">
+          {" "}
+          <div className="!mb-[5rem] flex grid-cols-2 flex-col-reverse gap-2 lg:grid">
+            <motion.div
+              ref={ref3} // อ้างอิง div นี้   >
+              initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
+              animate={controls3} // ใช้ controls เพื่อควบคุม animation
+              transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
+            >
+              <p className="f_header mb-2 text-[2.50rem] lg:text-[3.75rem]">Don’t grow it alone</p>
+              <p className="mb-4 text-[1rem] lg:text-lg">
+                Don't let headcount become a headache. We’ll connect you with talent that meets your needs.
+              </p>
+              <br />
+              <p className="mb-4 text-lg text-[1rem] lg:text-lg">
+                Your dedicated new team members will become experts in your world — your customers, your tech, your
+                data, your systems — so they can expand on what you’ve built.
+              </p>
+            </motion.div>
+            <div className="flex items-center justify-self-end">
+              <Image
+                src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c4794ce4765_Illustration%3DPlant%201.svg"
+                alt="Project Logo"
+                width={136} // ลดขนาดความกว้าง
+                height={136} // ลดขนาดความสูง
+                className="lg:mx-auto"
+              />
+            </div>
           </div>
-        </div>
-        <div className="lg:px-[7.5vw]">
-          <hr className="my-8 h-px border-0 bg-gray-200 dark:bg-gray-700" />
-          <motion.div
-            ref={ref4} // อ้างอิง div แรก
-            className="grid-cols-3 gap-4 lg:grid"
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls4} // ใช้ controls1 เพื่อควบคุม animation
-          >
-            {outher1.map((item, index) => (
-              <motion.div key={index} className="mb-2 flex gap-[1.5rem] border-b py-[2rem]" variants={itemVariants}>
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  width={40} // ขนาดรูปภาพเล็ก
-                  height={40} // ขนาดรูปภาพเล็ก
-                  className="h-10"
-                />
-                <div>
-                  <h2 className="text-xl font-bold">{item.h2}</h2>
-                  <p className="mt-2 text-sm">{item.p}</p>
-                  <p className="mt-4 text-sm font-bold text-black">{item.text_end}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-          <motion.div
-            ref={ref5} // อ้างอิง div ที่สอง
-            className="grid-cols-3 gap-4 lg:grid"
-            variants={containerVariants}
-            initial="hidden"
-            animate={controls5} // ใช้ controls2 เพื่อควบคุม animation
-          >
-            {outher2.map((item, index) => (
-              <motion.div key={index} className="flex gap-[1.5rem] border-b py-[2rem]" variants={itemVariants}>
-                <Image
-                  src={item.src}
-                  alt={item.alt}
-                  width={40} // ขนาดรูปภาพเล็ก
-                  height={40} // ขนาดรูปภาพเล็ก
-                  className="h-10"
-                />
-                <div>
-                  <h2 className="text-xl font-bold">{item.h2}</h2>
-                  <p className="mt-2 text-sm">{item.p}</p>
-                  <p className="mt-4 text-sm font-bold text-black">{item.text_end}</p>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
+          <div className="">
+            <hr className="my-8 h-px border-0 bg-gray-200 dark:bg-gray-700" />
+            <motion.div
+              ref={ref4} // อ้างอิง div แรก
+              className="grid-cols-3 lg:grid"
+              variants={containerVariants}
+              initial="hidden"
+              animate={controls4} // ใช้ controls1 เพื่อควบคุม animation
+            >
+              {outher1.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="mb-[3.5rem] flex gap-[1.5rem] pe-[3.5rem] pt-[2rem]"
+                  variants={itemVariants}
+                >
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={40} // ขนาดรูปภาพเล็ก
+                    height={40} // ขนาดรูปภาพเล็ก
+                    className="h-10"
+                  />
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <h2 className="mb-[1rem] text-xl font-bold">{item.h2}</h2>
+                      <p className="mt-2 text-[1rem] leading-[1.7]">{item.p}</p>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="!mb-0 text-[1.125rem] !font-[700] text-black">{item.text_end}</p>
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.51 6.605L6.822 0.916999L5.076 2.654L7.83 5.408H0.657V7.784H7.83L5.076 10.547L6.822 12.293L12.51 6.605Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+            <motion.div
+              ref={ref5} // อ้างอิง div ที่สอง
+              className="grid-cols-3 lg:grid"
+              variants={containerVariants}
+              initial="hidden"
+              animate={controls5} // ใช้ controls2 เพื่อควบคุม animation
+            >
+              {outher2.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="flex gap-[1.5rem] border-t border-b pe-[3.5rem] pt-[2rem] lg:border-b-0"
+                  variants={itemVariants}
+                >
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={40} // ขนาดรูปภาพเล็ก
+                    height={40} // ขนาดรูปภาพเล็ก
+                    className="h-10"
+                  />
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <h2 className="mb-[1rem] text-xl font-bold">{item.h2}</h2>
+                      <p className="mt-2 text-[1rem] leading-[1.7]">{item.p}</p>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="!mb-0 w-[90%] text-[1.125rem] !font-[700] text-black">{item.text_end}</p>
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.51 6.605L6.822 0.916999L5.076 2.654L7.83 5.408H0.657V7.784H7.83L5.076 10.547L6.822 12.293L12.51 6.605Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          </div>
         </div>
       </section>
 
       {/* Why clients stick with us section */}
-      <section className="bg-[#fffcfa] px-[7.5vw] py-16">
-        <p className="f_header py-[2rem] text-center text-[3.75rem]">Why our clients stick with us</p>
-        <div className="lg:px-[7.5vw]">
-          <div className="relative rounded-lg border border-gray-200 bg-[#f7e1d2] p-6 shadow-md transition-shadow hover:shadow-lg">
-            <div className="absolute top-0 right-0">
-              <Image
-                src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0ce154ce4785_Testimonial%20Scribble%2002.svg"
-                alt="Top Left Decoration"
-                width={100}
-                height={100}
-              />
-            </div>
-            <div className="absolute top-0 left-0">
-              <Image
-                src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c6fbcce4788_Testimonial%20Scribble%2001.svg"
-                alt="Top Right Decoration"
-                width={100}
-                height={100}
-              />
-            </div>
-            <p className="f_header mb-4 px-[5rem] py-[2rem] text-center text-lg text-gray-700 italic">
-              "SupportNinja has really been flexible with us as we’re growing the <br /> business, and have been really
-              responsive and accommodating. They’ve <br /> been integral to helping our business grow."
-            </p>
-            <h3 className="px-[5rem] text-center text-xl font-bold text-gray-900">Pam Schwab</h3>
-            <p className="px-[5rem] text-center text-sm text-gray-600">VP of Quality & Customer Care, SymmetryRx</p>
-            <hr className="my-8 h-[1px] border-0 bg-[#d3d3d3]" />
+      <section className="bg-[#fffcfa] py-16">
+        <div className="container">
+          <p className="f_header py-[2rem] text-center text-[2.75rem] lg:text-[3.75rem]">
+            Why our clients stick with us
+          </p>
+          <div className="">
+            <div className="relative rounded-lg border border-gray-200 bg-[#f7e1d2] p-6 shadow-md transition-shadow hover:shadow-lg">
+              <div className="absolute top-0 right-0">
+                <Image
+                  src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0ce154ce4785_Testimonial%20Scribble%2002.svg"
+                  alt="Top Left Decoration"
+                  width={100}
+                  height={100}
+                />
+              </div>
+              <div className="absolute top-0 left-0">
+                <Image
+                  src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c6fbcce4788_Testimonial%20Scribble%2001.svg"
+                  alt="Top Right Decoration"
+                  width={100}
+                  height={100}
+                />
+              </div>
+              <p className="f_header mb-4 py-[2rem] text-center text-[1.375rem] text-gray-700 italic lg:px-[5rem]">
+                "SupportNinja has really been flexible with us as we’re growing the <br /> business, and have been
+                really responsive and accommodating. They’ve <br /> been integral to helping our business grow."
+              </p>
+              <h3 className="px-[5rem] text-center text-xl font-bold text-gray-900">Pam Schwab</h3>
+              <p className="px-[5rem] text-center text-sm text-gray-600">VP of Quality & Customer Care, SymmetryRx</p>
 
-            <div className="absolute top-4 left-1/2 flex -translate-x-1/2 space-x-2">
-              {[...Array(5)].map((_, index) => (
-                <span
-                  key={index}
-                  className={`h-2 w-2 rounded-full ${index === 2 ? "bg-[#004225]" : "bg-[#d3d3d3]"}`}
-                ></span>
-              ))}
-            </div>
-            <div className="absolute right-[1rem] bottom-0 flex -translate-y-1/2 space-x-2">
-              <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#004225] text-white">
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
-                </svg>
-              </button>
-              <button className="flex h-8 w-8 items-center justify-center rounded-full bg-[#004225] text-white">
-                <svg
-                  className="h-4 w-4"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  viewBox="0 0 24 24"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                </svg>
-              </button>
+              <div className="flex items-center gap-10 px-[3.5rem]">
+                <div className="flex space-x-2">
+                  {[...Array(5)].map((_, index) => (
+                    <span
+                      key={index}
+                      className={`h-2 w-2 rounded-full ${index === 2 ? "bg-[#004225]" : "bg-[#d3d3d3]"}`}
+                    ></span>
+                  ))}
+                </div>
+                <div className="h-[1px] w-full bg-[#d3d3d3]"></div>
+                <div className="flex">
+                  <div className="flex h-[2.5rem] items-center rounded-tl-[48px] rounded-bl-[48px] bg-[#004225] pt-[0.53125rem] pr-[0.875rem] pb-[0.59375rem] pl-[1.375rem]">
+                    <svg
+                      className=""
+                      width="12"
+                      height="11"
+                      viewBox="0 0 12 11"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M0.5525 5.292L5.5845 10.308L6.7845 9.124L3.8005 6.132H11.2325V4.468H3.8005L6.7845 1.476L5.5845 0.268L0.5525 5.292Z"
+                        fill="#ffff"
+                      ></path>
+                    </svg>
+                  </div>
+                  <div className="flex h-[2.5rem] rotate-180 items-center rounded-tl-[48px] rounded-bl-[48px] bg-[#004225] pt-[0.53125rem] pr-[0.875rem] pb-[0.59375rem] pl-[1.375rem]">
+                    <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path
+                        d="M0.5525 5.292L5.5845 10.308L6.7845 9.124L3.8005 6.132H11.2325V4.468H3.8005L6.7845 1.476L5.5845 0.268L0.5525 5.292Z"
+                        fill="#ffff"
+                      ></path>
+                    </svg>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1043,24 +1151,24 @@ export default function HomePage() {
         />
       </div>
 
-      <section className="bg-stone relative bg-[#bfc1b9] py-16">
-        <div className="container mx-auto px-4">
+      <section className="bg-stone relative bg-[#bfc1b9] pb-16">
+        <div className="relative">
+          <img
+            src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c0fc8ce4798_Globe%20Lines.svg"
+            alt="Globe Background"
+            className="absolute inset-0 mx-auto hidden w-[80rem] md:block"
+          />
+          <img
+            src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c275cce47b7_Mobile%20Globe%20Lines.svg"
+            alt="Mobile Globe Background"
+            className="mx-auto block w-full max-w-xs md:hidden"
+          />
+        </div>
+        <div className="px-[7.5vw]">
           {/* Globe Background */}
-          <div className="relative">
-            <img
-              src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c0fc8ce4798_Globe%20Lines.svg"
-              alt="Globe Background"
-              className="absolute inset-0 mx-auto hidden w-full max-w-4xl md:block"
-            />
-            <img
-              src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c275cce47b7_Mobile%20Globe%20Lines.svg"
-              alt="Mobile Globe Background"
-              className="mx-auto block w-full max-w-xs md:hidden"
-            />
-          </div>
 
           {/* Content */}
-          <div className="grid gap-8 px-[7.5vw] lg:grid-cols-3">
+          <div className="grid gap-8 lg:grid-cols-3">
             {/* ซ้าย */}
             <div className="hidden grid-cols-2 gap-4 lg:grid">
               {[
@@ -1086,21 +1194,27 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
               animate={controls6} // ใช้ controls เพื่อควบคุม animation
               transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและ
-              className="relative z-10 text-center"
+              className="relative z-10 flex flex-col gap-[1.5rem]"
             >
-              <h2 className="f_header mb-4 text-[3.75rem] font-[400]">Spanning a wider world of talent</h2>
+              <h2 className="f_header mb-4 text-center text-[3.75rem] leading-[1.2] font-[500]">
+                Spanning a wider world of talent
+              </h2>
               <p className="mb-6 text-lg text-gray-700">
                 What are the odds that the most qualified people in the world live in your zip code? We’ll help you see
                 further.
                 <br />
+                <br />
                 A global team extends your presence across time zones and languages—which means longer reach, constant
                 uptime, and happier customers.
                 <br />
+                <br />
                 <strong>It’s time to go international. No passport required.</strong>
               </p>
-              <button className="w-fit cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
-                <p className="font-bold">Get Started</p>
-              </button>
+              <div className="flex justify-center">
+                <button className="w-fit cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
+                  <h3 className="font-bold">Get Started</h3>
+                </button>
+              </div>
             </motion.div>
 
             {/* ขวา */}
@@ -1127,8 +1241,8 @@ export default function HomePage() {
       </section>
 
       <section className="bg-stone bg-[#bfc1b9] px-[7.5vw] py-[10rem]">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+        <div className="px-4">
+          <div className="grid grid-cols-1 gap-[7.5vw] lg:grid-cols-2">
             {/* Left Content */}
             <motion.div
               ref={ref7} // อ้างอิง div นี้
@@ -1185,7 +1299,7 @@ export default function HomePage() {
                         </div>
                       ))}
                       <button className="w-full cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
-                        <p className="font-bold">View details</p>
+                        <h3 className="font-bold">View details</h3>
                       </button>{" "}
                     </div>
                   )}
@@ -1207,7 +1321,7 @@ export default function HomePage() {
                         </div>
                       ))}
                       <button className="w-full cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
-                        <p className="font-bold">View details</p>
+                        <h3 className="font-bold">View details</h3>
                       </button>{" "}
                     </div>
                   )}
@@ -1218,10 +1332,10 @@ export default function HomePage() {
         </div>
       </section>
       <section className="w-full bg-[#fffcfa] px-[7.5vw] py-16">
-        <div className="container mx-auto px-4">
+        <div className="px-4">
           <div className="flex flex-col items-center gap-12 lg:flex-row">
             <div className="flex-1 text-center md:text-left">
-              <p className="text-ninja-dark mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
+              <p className="f_header text-ninja-dark mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
                 We're passionate
                 <br /> about our people.
               </p>
@@ -1234,7 +1348,7 @@ export default function HomePage() {
                 <br /> earned us industry-high talent retention rates.
               </p>
               <button className="w-fit cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
-                <p className="font-bold">Read our story</p>
+                <h3 className="font-bold">Read our story</h3>
               </button>
             </div>
 
@@ -1268,7 +1382,7 @@ export default function HomePage() {
       </section>
 
       <section className="w-full bg-[#fffcfa] px-[7.5vw] py-16">
-        <div className="container mx-auto px-4">
+        <div className="mx-auto px-4">
           <div className="flex flex-col-reverse items-center gap-[7.5vw] lg:flex-row">
             <div className="relative flex flex-1 justify-center md:justify-start">
               <Image
@@ -1303,7 +1417,7 @@ export default function HomePage() {
                 environment where<br></br> you can thrive. Check out our openings today.
               </p>
               <button className="w-fit cursor-pointer rounded-full border border-[#0D3A23] bg-[#0D3A23] px-6 py-3 text-white transition-all hover:bg-[#0d3a2300] hover:text-black">
-                <p className="font-bold">View Open roles</p>
+                <h3 className="font-bold">View Open roles</h3>
               </button>
             </div>
           </div>
@@ -1322,7 +1436,7 @@ export default function HomePage() {
           />
         </div>
         <div className="w-full bg-[#F7E1D2] px-[7.5vw]">
-          <div className="container mx-auto px-4 py-16">
+          <div className="mx-auto px-4 py-16">
             <div className="flex flex-col items-center gap-12 lg:flex-row">
               <div className="flex-1 text-center md:text-left">
                 <p className="text-ninja-dark f_header mb-4 text-4xl font-medium md:text-5xl lg:text-6xl">
@@ -1333,15 +1447,15 @@ export default function HomePage() {
                 </p>
                 <Link
                   href="/get-started"
-                  className="f_header bg-ninja-red group inline-flex w-[100%] items-center justify-between rounded-full px-6 py-3 font-serif text-lg font-normal text-white transition-colors hover:bg-[#2b2c30] lg:w-auto"
+                  className="f_header bg-ninja-red group inline-flex w-[100%] items-center justify-between gap-[2rem] rounded-[4.25rem] p-[0.7rem_0.6rem_0.7rem_1.7rem] font-serif text-[1.375rem] font-normal text-white transition-colors hover:bg-[#2b2c30] lg:w-auto"
                 >
                   Get started
-                  <span className="text-ninja-red relative ml-3 flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white">
+                  <span className="text-ninja-red relative ml-3 flex h-[2.5rem] w-[2.5rem] items-center justify-center overflow-hidden rounded-[48px] bg-white">
                     <svg
-                      className="group-hover:animate-arrow-loop h-4 w-4 transition-transform duration-300"
+                      className="group-hover:animate-arrow-loop h-[12px] w-[12px] transition-transform duration-300"
                       fill="none"
                       stroke="currentColor"
-                      strokeWidth="2"
+                      strokeWidth="4"
                       viewBox="0 0 24 24"
                       xmlns="http://www.w3.org/2000/svg"
                     >
@@ -1351,13 +1465,10 @@ export default function HomePage() {
                 </Link>
               </div>
               <div className="flex flex-1 justify-center md:justify-end">
-                <Image
+                <img
+                  className="w-[100%] rounded-lg"
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0cc4e1ce4794_Character%20Illustration__Footer-CTA.webp"
-                  alt="Project Logo"
-                  width={559}
-                  height={290}
-                  className="h-auto max-w-full"
-                  priority
+                  alt=""
                 />
               </div>
             </div>
@@ -1366,14 +1477,14 @@ export default function HomePage() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-[#bfc1b9] px-[7.5vw] pt-12 pb-6">
-        <div className="container mx-auto px-4">
+      <footer className="bg-[#bfc1b9] px-[7.5vw] pt-[5.5rem] pb-6">
+        <div className="mx-auto px-4">
           <div className="mb-8">
             <Link href="/" className="inline-block">
               <Image
                 src="https://ext.same-assets.com/1779142936/3292783992.svg"
                 alt="Support Ninja | Full Logo"
-                width={160}
+                width={200}
                 height={40}
               />
             </Link>
@@ -1487,25 +1598,27 @@ export default function HomePage() {
               </ul>
             </div>
 
-            <div className="col-span-1 flex items-start justify-center md:col-span-4 lg:col-span-1 lg:justify-end">
-              <Link
-                href="/get-started"
-                className="f_header bg-ninja-red group inline-flex w-[100%] items-center justify-between rounded-full px-6 py-3 font-serif text-lg font-normal text-white transition-colors hover:bg-[#2b2c30] lg:w-auto"
-              >
-                Get started
-                <span className="text-ninja-red relative ml-3 flex h-8 w-8 items-center justify-center overflow-hidden rounded-full bg-white">
-                  <svg
-                    className="group-hover:animate-arrow-loop h-4 w-4 transition-transform duration-300"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    viewBox="0 0 24 24"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                  </svg>
-                </span>
-              </Link>
+            <div className="col-span-1 flex w-full items-start justify-center md:col-span-4 lg:col-span-1">
+              <div>
+                <Link
+                  href="/get-started"
+                  className="f_header bg-ninja-red group inline-flex w-[100%] items-center justify-between gap-[2rem] rounded-[4.25rem] p-[0.7rem_0.6rem_0.7rem_1.7rem] font-serif text-[1.375rem] font-normal text-white transition-colors hover:bg-[#2b2c30] lg:w-auto"
+                >
+                  Get started
+                  <span className="text-ninja-red relative ml-3 flex h-[2.5rem] w-[2.5rem] items-center justify-center overflow-hidden rounded-[48px] bg-white">
+                    <svg
+                      className="group-hover:animate-arrow-loop h-[12px] w-[12px] transition-transform duration-300"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      viewBox="0 0 24 24"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                    </svg>
+                  </span>
+                </Link>
+              </div>
             </div>
           </div>
 
