@@ -439,7 +439,7 @@ export default function HomePage() {
       {/* Header/Navigation */}
       <header className={`sticky top-0 z-50`}>
         <div
-          className={`mx-auto flex items-center justify-between px-[7.5vw] pt-[2.5rem] transition-all duration-300 md:pt-[1.5rem] lg:pt-[1.5rem]`}
+          className={`mx-auto flex items-center justify-between px-[7.5vw] pt-[1.5rem] transition-all duration-300 md:pt-[1.5rem] lg:pt-[1.5rem]`}
         >
           <Link
             href="/"
@@ -451,7 +451,7 @@ export default function HomePage() {
               width={216}
               height={45}
               priority
-              className=""
+              className="h-[45px] w-[175px] md:w-auto"
             />
           </Link>
           <nav
@@ -632,27 +632,28 @@ export default function HomePage() {
               Resources
             </a>
           </nav>
-          <div className="p-[0.75rem_1rem] lg:hidden">
+          <div className=" lg:hidden">
             {/* ปุ่ม Burger */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="relative z-50 flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-200 focus:outline-none"
+              className="relative z-50 flex h-10 w-10 flex-col gap-[3px] items-center justify-center"
               aria-label="Toggle Menu"
             >
-              <svg
-                className="h-6 w-6"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  d={isOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16M4 18h16"} // เปลี่ยนไอคอนเมื่อเปิด/ปิด
-                />
-              </svg>
+              <div
+                className={` h-[2px] w-7 bg-black transition-transform duration-300 ease-in-out ${
+                  isOpen ? "translate-y-[7px] rotate-45" : ""
+                }`}
+              ></div>
+              <div
+                className={` h-[2px] w-7 bg-black transition-opacity duration-300 ease-in-out ${
+                  isOpen ? "opacity-0" : "opacity-100"
+                }`}
+              ></div>
+              <div
+                className={`h-[2px] w-7 bg-black transition-transform duration-300 ease-in-out ${
+                  isOpen ? "-translate-y-[7px] -rotate-45" : ""
+                }`}
+              ></div>
             </button>
 
             {/* เมนู */}
@@ -885,7 +886,7 @@ export default function HomePage() {
                   key={i}
                   className={` ${
                     checkedItems[i]
-                      ? "bg-[#fffcfa] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1)]"
+                      ? "bg-[#ffffff] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1)]"
                       : "bg-[#fffcfa80]"
                   } relative flex flex-col items-center justify-center gap-[1rem] rounded-[.75rem] bg-[#fffcfa80] py-[1.5rem] transition-all hover:bg-[#fffcfa] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1)] lg:h-[230px] lg:w-[311px]`}
                 >
@@ -903,13 +904,16 @@ export default function HomePage() {
                       height={120}
                       className="h-[7.5rem] w-[7.5rem] rounded-md object-cover"
                     /> */}
-                    <p className="mt-[1rem] text-center text-[1rem] !font-[700]">{img.alt}</p>
+                    <p className="mt-[1rem] max-w-[50%] text-start text-[1rem] !font-[700] sm:max-w-full sm:text-center">
+                      {img.alt}
+                    </p>
+                    <div></div>
                   </div>
 
                   <div
                     className={`${
                       checkedItems[i] ? "" : ""
-                    } absolute top-[.5rem] right-[.5rem] m-2 h-[1rem] w-[1rem] rounded-[4px] border-[1px] border-[#58595c] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1)]`}
+                    } absolute top-[3rem] right-[.5rem] m-2 h-[1.5rem] w-[1.5rem] rounded-[4px] border-[1px] border-[#58595c] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),_0_4px_6px_-4px_rgba(0,0,0,0.1)] sm:top-[.5rem] sm:h-[1rem] sm:w-[1rem]`}
                   ></div>
 
                   {/* Checkmark Icon */}
@@ -917,7 +921,7 @@ export default function HomePage() {
                     <img
                       src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c4278ce47b4_Select%20Checkmark.svg"
                       alt="Checkmark Icon"
-                      className="absolute top-[.8rem] right-[.65rem] m-2 h-[.4375rem] w-[.625rem]"
+                      className="absolute top-[3.5rem] right-[.9rem] m-2 h-[.4375rem] w-[.625rem] sm:top-[.8rem] sm:right-[.65rem]"
                     />
                   )}
                 </div>
@@ -1156,7 +1160,7 @@ export default function HomePage() {
                   height={100}
                 />
               </div>
-              <div className="absolute bottom-0 right-0  md:hidden">
+              <div className="absolute right-0 bottom-0 md:hidden">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c7320ce4797_Testimonial%20Mobile%20Scribble%2002.svg"
                   alt="Top Left Decoration"
@@ -1164,7 +1168,7 @@ export default function HomePage() {
                   height={100}
                 />
               </div>
-              <div className="absolute bottom-0 left-0  md:hidden">
+              <div className="absolute bottom-0 left-0 md:hidden">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c50acce4796_Testimonial%20Mobile%20Scribble%2001.svg"
                   alt="Top Left Decoration"
@@ -1408,7 +1412,7 @@ export default function HomePage() {
                       <div className="relative z-10 flex h-[48px] w-[48px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-lg leading-none font-semibold">
                         {index + 1}
                       </div>
-                      <div className="absolute top-4 right-auto -bottom-8 left-6 h-[350] sm:h-[300px] w-[1px] bg-white"></div>
+                      <div className="absolute top-4 right-auto -bottom-8 left-6 h-[350] w-[1px] bg-white sm:h-[300px]"></div>
                       <h4 className="!mt-0 text-[1rem] leading-relaxed lg:text-[1.25rem]">{step}</h4>
                     </div>
                   ))}
