@@ -1116,7 +1116,7 @@ export default function HomePage() {
                   <div className="flex flex-col justify-between">
                     <div>
                       <h2 className="mb-[1rem] text-xl font-bold">{item.h2}</h2>
-                      <p className="md:max-w-[max-width] mt-2 text-[1rem] leading-[1.7]">{item.p}</p>
+                      <p className="mt-2 text-[1rem] leading-[1.7] md:max-w-[max-width]">{item.p}</p>
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="!mb-0 text-[1.125rem] !font-[700] md:text-black">{item.text_end}</p>
@@ -1143,7 +1143,7 @@ export default function HomePage() {
           </p>
           <div className="">
             <div className="relative rounded-[20px] bg-[#f7e1d2] p-6 py-[2.5rem]">
-              <div className="absolute top-0 right-0 hidden md:block">
+              <div className="absolute top-0 right-0 hidden lg:block">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0ce154ce4785_Testimonial%20Scribble%2002.svg"
                   alt="Top Left Decoration"
@@ -1151,7 +1151,7 @@ export default function HomePage() {
                   height={100}
                 />
               </div>
-              <div className="absolute top-0 left-0 hidden md:block">
+              <div className="absolute top-0 left-0 hidden lg:block">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c6fbcce4788_Testimonial%20Scribble%2001.svg"
                   alt="Top Right Decoration"
@@ -1159,7 +1159,7 @@ export default function HomePage() {
                   height={100}
                 />
               </div>
-              <div className="absolute right-0 bottom-0 md:hidden">
+              <div className="absolute right-0 bottom-0 lg:hidden">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c7320ce4797_Testimonial%20Mobile%20Scribble%2002.svg"
                   alt="Top Left Decoration"
@@ -1167,7 +1167,7 @@ export default function HomePage() {
                   height={100}
                 />
               </div>
-              <div className="absolute bottom-0 left-0 md:hidden">
+              <div className="absolute bottom-0 left-0 lg:hidden">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c50acce4796_Testimonial%20Mobile%20Scribble%2001.svg"
                   alt="Top Left Decoration"
@@ -1266,7 +1266,7 @@ export default function HomePage() {
           <img
             src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c0fc8ce4798_Globe%20Lines.svg"
             alt="Globe Background"
-            className="absolute inset-0 bottom-0 left-1/2 mx-auto w-[100%] w-full -translate-x-1/2 transform md:block md:w-[80%]"
+            className="absolute inset-0 bottom-0 left-1/2 mx-auto w-full -translate-x-1/2 transform md:block md:w-[300%] lg:w-[80%]"
           />
         </div>
         <div className="px-[7.5vw]">
