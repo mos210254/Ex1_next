@@ -93,8 +93,6 @@ const outher1 = [
     p: "Outsource dedicated experts on your business to answer customer questions.",
     text_end: "Explore Technical Customer Support",
   },
-]
-const outher2 = [
   {
     src: "https://cdn.prod.website-files.com/64149f79022d0c3ed8ce46e9/64149f79022d0ca966ce478f_icons%3DPencil.svg",
     alt: "Project Logo",
@@ -117,6 +115,7 @@ const outher2 = [
     text_end: "Explore Finance & Accounting",
   },
 ]
+
 const images = [
   {
     src: "https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c1677ce47c0_Tile__Man.webp",
@@ -451,7 +450,7 @@ export default function HomePage() {
               width={216}
               height={45}
               priority
-              className="h-[45px] w-[175px] md:w-auto"
+              className="h-[45px] w-[175px] md:h-[2.5rem] md:w-[175px] lg:h-[2.5rem] lg:w-[12rem]"
             />
           </Link>
           <nav
@@ -853,11 +852,13 @@ export default function HomePage() {
             transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
             className="mx-auto pt-[2.5rem] pb-[3.5rem] lg:py-[5rem]"
           >
-            <p className="!mb-0 !text-center text-[1.125rem] font-[500] lg:mb-auto lg:max-w-auto lg:text-[1.625rem]">
+            <p className="!mb-0 !text-center text-[1.125rem] font-[500] md:text-[1.625rem] lg:mb-auto lg:max-w-auto">
               Quickly and securely scale your team with agile, highly <br className="hidden lg:block" /> customizable
               outsourcing solutions that power your growth.
             </p>
-            <h3 className="f_header mb-4 text-[3rem] font-[500] lg:text-[5rem]">Outsourcing worth talking about</h3>
+            <h3 className="f_header mb-4 text-[3rem] font-[500] md:text-[4.5rem] lg:text-[5rem]">
+              Outsourcing worth talking about
+            </h3>
           </motion.div>
           {/* Icons for Services (Placeholder) */}
           {/* <hr className="my-8 border-t border-gray-300" /> */}
@@ -865,7 +866,7 @@ export default function HomePage() {
 
         <div className="px-[7.5vw] pb-[3.5rem]">
           <div className="mb-[2.5rem] border-t-1 border-[#BFC1B9] pt-[1.5rem] sm:pt-[3.5rem]">
-            <h2 className="mb-2 text-[1.125rem] font-bold lg:text-[1.625rem]">
+            <h2 className="mb-2 text-[1.125rem] font-[800] md:text-start md:text-[1.3rem] lg:text-center lg:text-[1.625rem]">
               Which outsourcing solutions are you looking for?
             </h2>
             <p className="text-[1rem] font-[500]">Choose as many as you need.</p>
@@ -934,7 +935,7 @@ export default function HomePage() {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
-            className="md:no-scrollbar md:flex hidden cursor-pointer gap-[1.5rem] overflow-x-auto whitespace-nowrap  md:[-ms-overflow-style:none] md:[scrollbar-width:none]"
+            className="md:no-scrollbar hidden cursor-pointer overflow-x-auto whitespace-nowrap md:flex md:[-ms-overflow-style:none] md:[scrollbar-width:none] lg:gap-[1.5rem]"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
             {img_data.map((img, i) => (
@@ -945,19 +946,14 @@ export default function HomePage() {
                   checkedItems[i]
                     ? "bg-[#ffffff] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px-4px_rgba(0,0,0,0.1)]"
                     : "bg-[#fffcfa80]"
-                } relative flex flex-col items-center justify-center gap-[1rem] rounded-[.75rem] bg-[#fffcfa80] py-[1.5rem] transition-all hover:bg-[#fffcfa] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px-4px_rgba(0,0,0,0.1)]`}
-                style={{ width: "311px", height: "230px" }} // Fixed dimensions for all cards
+                } relative mr-[24px] flex flex-col items-center justify-between gap-[1rem] rounded-[.75rem] py-[1.5rem] transition-all hover:bg-[#fffcfa] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px-4px_rgba(0,0,0,0.1)] md:min-h-[180px] md:min-w-[240px] lg:min-h-[230px] lg:min-w-[230px]`}
               >
                 <div className="flex flex-col items-center justify-center gap-[1rem]">
                   <img className="h-[7.5rem] w-[7.5rem] rounded-md object-cover" src={img.src} alt="" />
-                  <p className="mt-[1rem] text-center text-[1rem] !font-[700]">{img.alt}</p>
+                  <p className="min-h-[2.5rem] text-center text-[1rem] !font-[700]">{img.alt}</p>
                 </div>
 
-                <div
-                  className={`${
-                    checkedItems[i] ? "" : ""
-                  } absolute top-[.5rem] right-[.5rem] m-2 h-[1rem] w-[1rem] rounded-[4px] border-[1px] border-[#58595c] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px-4px_rgba(0,0,0,0.1)]`}
-                ></div>
+                <div className="absolute top-[.5rem] right-[.5rem] m-2 h-[1rem] w-[1rem] rounded-[4px] border-[1px] border-[#58595c] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px-4px_rgba(0,0,0,0.1)]"></div>
 
                 {checkedItems[i] && (
                   <img
@@ -1039,9 +1035,9 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
             animate={controls2} // ใช้ controls เพื่อควบคุม animation
             transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
-            className="max-w-[32.5rem]"
+            className="lg:max-w-[32.5rem]"
           >
-            <h3 className="f_header !mb-[2rem] text-[2.3rem] leading-[1.2] font-[500] lg:text-[3.75rem] lg:leading-[1.2]">
+            <h3 className="f_header !mb-[2rem] text-[2.3rem] leading-[1.2] font-[500] md:text-[3.75rem] md:leading-[1.2] lg:text-[3.75rem] lg:leading-[1.2]">
               Free up resources, accelerate growth, and solve for scale.
             </h3>
             <p className="!mb-[1rem] text-[1rem] font-[400] lg:!text-[1.25rem]">
@@ -1074,8 +1070,9 @@ export default function HomePage() {
               initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
               animate={controls3} // ใช้ controls เพื่อควบคุม animation
               transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
+              className="md:w-[33.5rem] lg:max-w-auto"
             >
-              <p className="f_header mb-2 text-[2.50rem] lg:text-[3.75rem]">Don’t grow it alone</p>
+              <p className="f_header mb-2 text-[2.50rem] md:text-[3.75rem] lg:text-[3.75rem]">Don’t grow it alone</p>
               <p className="mb-4 text-[1rem] text-[#58595c] lg:text-[1.25rem]">
                 Don't let headcount become a headache. We’ll connect you with talent that meets your needs.
               </p>
@@ -1098,7 +1095,7 @@ export default function HomePage() {
           <div className="">
             <motion.div
               ref={ref4} // อ้างอิง div แรก
-              className="grid-cols-3 lg:grid"
+              className="md:grid md:grid-cols-2 lg:grid lg:grid-cols-3"
               variants={containerVariants}
               initial="hidden"
               animate={controls4} // ใช้ controls1 เพื่อควบคุม animation
@@ -1119,48 +1116,10 @@ export default function HomePage() {
                   <div className="flex flex-col justify-between">
                     <div>
                       <h2 className="mb-[1rem] text-xl font-bold">{item.h2}</h2>
-                      <p className="mt-2 text-[1rem] leading-[1.7]">{item.p}</p>
+                      <p className="md:max-w-[max-width] mt-2 text-[1rem] leading-[1.7]">{item.p}</p>
                     </div>
                     <div className="flex items-center justify-between">
                       <p className="!mb-0 text-[1.125rem] !font-[700] md:text-black">{item.text_end}</p>
-                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12.51 6.605L6.822 0.916999L5.076 2.654L7.83 5.408H0.657V7.784H7.83L5.076 10.547L6.822 12.293L12.51 6.605Z"
-                          fill="currentColor"
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
-            <motion.div
-              ref={ref5} // อ้างอิง div ที่สอง
-              className="grid-cols-3 lg:grid"
-              variants={containerVariants}
-              initial="hidden"
-              animate={controls5} // ใช้ controls2 เพื่อควบคุม animation
-            >
-              {outher2.map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="mb-[3.5rem] flex flex-col gap-[1.5rem] border-t pt-[2rem] md:flex-row md:pe-[3.5rem] md:pt-[2rem]"
-                  variants={itemVariants}
-                >
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    width={40} // ขนาดรูปภาพเล็ก
-                    height={40} // ขนาดรูปภาพเล็ก
-                    className="h-10"
-                  />
-                  <div className="flex flex-col justify-between">
-                    <div>
-                      <h2 className="mb-[1rem] text-xl font-bold">{item.h2}</h2>
-                      <p className="mt-2 text-[1rem] leading-[1.7]">{item.p}</p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <p className="!mb-0 text-[1.125rem] !font-[700] text-black">{item.text_end}</p>
                       <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path
                           d="M12.51 6.605L6.822 0.916999L5.076 2.654L7.83 5.408H0.657V7.784H7.83L5.076 10.547L6.822 12.293L12.51 6.605Z"
@@ -1404,10 +1363,10 @@ export default function HomePage() {
 
             {/* Right Tabs */}
             <div>
-              <h3 className="mb-8 text-2xl font-semibold">Get set up in 5 easy steps</h3>
+              <h3 className="mb-8 text-[1.125rem] font-semibold">Get set up in 5 easy steps</h3>
 
               {/* Tab Buttons */}
-              <div className="mb-8 flex gap-4">
+              <div className="mb-8 flex gap-2">
                 <button
                   className={`flex-1 cursor-pointer rounded-full px-8 text-[.875rem] leading-[1.2] shadow-md lg:text-[1rem] ${
                     activeTab === "management" ? "bg-white" : "bg-[#d3d4cd]"
@@ -1449,10 +1408,10 @@ export default function HomePage() {
                   ).map((step, index) => (
                     <div key={index} className="!mb-0 flex items-start gap-6 pb-[1.25rem]">
                       {/* Fixed perfect circle */}
-                      <div className="relative z-10 flex h-[48px] w-[48px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-lg leading-none font-semibold">
+                      <div className="relative z-10 flex h-[2.5rem] w-[2.5rem] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-[.875rem] leading-none font-semibold sm:text-[1rem]">
                         {index + 1}
                       </div>
-                      <div className="absolute top-4 right-auto -bottom-8 left-6 h-[350] w-[1px] bg-white sm:h-[300px]"></div>
+                      <div className="absolute top-4 right-auto -bottom-5 left-5 h-[350] w-[1px] bg-white sm:h-[300px]"></div>
                       <h4 className="!mt-0 text-[1rem] leading-relaxed lg:text-[1.25rem]">{step}</h4>
                     </div>
                   ))}
@@ -1473,14 +1432,14 @@ export default function HomePage() {
         <div className="sm:px-4">
           <div className="flex flex-col items-center gap-12 lg:flex-row">
             <div className="flex-1 sm:text-center md:text-left">
-              <p className="f_header text-ninja-dark mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
+              <h3 className="f_header text-ninja-dark mb-4 text-4xl font-[500] md:text-5xl lg:text-6xl">
                 We're passionate
                 <br className="hidden lg:block" /> about our people.
-              </p>
+              </h3>
               <p className="text-ninja-dark mb-8 text-[1rem] !font-[700] sm:text-[1.25rem] md:text-xl">
                 Our people-first culture attracts and retains top talent.
               </p>
-              <p className="text-ninja-dark mb-8">
+              <p className="text-ninja-dark mb-8 text-[1rem]">
                 For nearly a decade, we've fostered the growth, wellbeing,
                 <br /> and career development of our team members — and that's
                 <br /> earned us industry-high talent retention rates.
@@ -1544,9 +1503,9 @@ export default function HomePage() {
             </div>
 
             <div className="flex-1 text-[1rem] sm:text-center md:text-left md:text-[1.25rem]">
-              <p className="text-ninja-dark f_header mb-4 text-4xl font-medium md:text-5xl lg:text-6xl">
+              <h3 className="text-ninja-dark f_header mb-4 text-4xl leading-[1.2] font-medium md:text-5xl lg:text-6xl">
                 Grow your career and unleash your <br className="hidden lg:block" /> potential.
-              </p>
+              </h3>
               <p className="text-ninja-dark mb-8 text-[1rem] !font-[700] md:text-[1.25rem]">
                 Ready to expand your horizons at a truly global company?
               </p>
@@ -1575,9 +1534,9 @@ export default function HomePage() {
         </div>
         <div className="w-full bg-[#F7E1D2] px-[7.5vw]">
           <div className="mx-auto py-16">
-            <div className="flex flex-col items-center gap-12 lg:flex-row">
+            <div className="flex flex-col items-center gap-[1rem] md:gap-12 lg:flex-row">
               <div className="!order-2 flex-1 sm:text-center md:text-left lg:order-1">
-                <h3 className="text-ninja-dark f_header mb-4 text-4xl !font-[600] md:text-5xl lg:text-6xl">
+                <h3 className="text-ninja-dark f_header mb-4 text-[2.75rem] leading-[1.2] !font-[500] md:text-[3.75rem]">
                   We're better together.
                   <br className="hidden lg:block" /> Start building your
                   <br className="hidden lg:block" /> dream team.
