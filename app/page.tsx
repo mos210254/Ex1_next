@@ -367,6 +367,68 @@ export default function HomePage() {
     setIsDragging(false)
   }
 
+  const testimonials = [
+    {
+      quote:
+        "SupportNinja is really responsive and flexible based on our needs. But what we’re really, really happy about is the Ninjas and their commitment to the brand. They’re like an extension of our team!",
+      name: "Sudip Dasgupta",
+      title: "Head of Customer Experience, Product Madness",
+    },
+    {
+      quote:
+        "Our partnership with SupportNinja has helped meet client demands we couldn’t handle internally. They have also given us great referrals with a much shorter sales cycle than we typically see.",
+      name: "Michael Hanson",
+      title: "VP Growth, CloudTask",
+    },
+    {
+      quote:
+        "I love the communication that we have with management, especially when we need to address something. It gets handled really quickly! Beyond this, I get great support, they're reliable and they get the job done.",
+      name: "Lorna Quijano",
+      title: "Full Service Manager, RedWeek",
+    },
+    {
+      quote:
+        "SupportNinja has really been flexible with us as we’re growing the business, and have been really responsive and accommodating. They’ve been integral to helping our business grow.",
+      name: "Pam Schwab",
+      title: "VP of Quality & Customer Care, SymmetryRx",
+    },
+  ]
+
+  const [activeIndex, setActiveIndex] = useState(0)
+  const carouselContainer = useRef<HTMLDivElement | null>(null)
+
+  // Handle slide navigation
+  const handlePrevSlide = () => {
+    setActiveIndex((prevIndex) => (prevIndex === 0 ? testimonials.length - 1 : prevIndex - 1))
+  }
+
+  const handleNextSlide = () => {
+    setActiveIndex((prevIndex) => (prevIndex === testimonials.length - 1 ? 0 : prevIndex + 1))
+  }
+
+  // Handling the dragging effect
+  let isMouseDown = false
+  let startPosX: number
+  let initialScrollLeft: number
+
+  const startDragging = (e: React.MouseEvent) => {
+    isMouseDown = true
+    startPosX = e.pageX - (carouselContainer.current?.offsetLeft || 0)
+    initialScrollLeft = carouselContainer.current?.scrollLeft || 0
+  }
+
+  const stopDragging = () => {
+    isMouseDown = false
+  }
+
+  const dragMove = (e: React.MouseEvent) => {
+    if (!isMouseDown) return
+    const currentX = e.pageX - (carouselContainer.current?.offsetLeft || 0)
+    const moveDistance = (currentX - startPosX) * 3 // multiplier for speed
+    if (carouselContainer.current) {
+      carouselContainer.current.scrollLeft = initialScrollLeft - moveDistance
+    }
+  }
   return (
     <div className="flex min-h-screen flex-col bg-[#f7e1d2]">
       {/* <div className="flex justify-center bg-[#EE4B4A] px-[7.5vw] py-[1rem] text-[.8125rem] leading-[1.6] text-white">
@@ -376,7 +438,9 @@ export default function HomePage() {
       </div> */}
       {/* Header/Navigation */}
       <header className={`sticky top-0 z-50`}>
-        <div className={`mx-auto flex items-center justify-between px-[7.5vw] pt-[1.5rem] transition-all duration-300`}>
+        <div
+          className={`mx-auto flex items-center justify-between px-[7.5vw] pt-[2.5rem] transition-all duration-300 md:pt-[1.5rem] lg:pt-[1.5rem]`}
+        >
           <Link
             href="/"
             className={`z-50 flex items-center transition-all duration-300 ${isSticky ? "invisible" : "flex"}`}
@@ -719,7 +783,7 @@ export default function HomePage() {
                     href="/get-started"
                     className="bg-ninja-red hover:bg-ninja-red/90 inline-flex w-[100%] items-center justify-between rounded-full px-6 py-3 font-serif text-lg font-normal text-white lg:w-auto lg:justify-between"
                   >
-                    <p className="f_header">Get started</p>
+                    <h3 className="f_header">Get started</h3>
                     <span className="text-ninja-red ml-3 flex h-8 w-8 items-center justify-center rounded-full bg-white">
                       <svg
                         className="h-4 w-4"
@@ -786,7 +850,7 @@ export default function HomePage() {
             initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
             animate={controls1} // ใช้ controls เพื่อควบคุม animation
             transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
-            className="mx-auto py-[5rem]"
+            className="mx-auto pt-[2.5rem] pb-[3.5rem] lg:py-[5rem]"
           >
             <p className="!mb-0 !text-center text-[1.125rem] font-[500] lg:mb-auto lg:max-w-auto lg:text-[1.625rem]">
               Quickly and securely scale your team with agile, highly <br className="hidden lg:block" /> customizable
@@ -798,12 +862,12 @@ export default function HomePage() {
           {/* <hr className="my-8 border-t border-gray-300" /> */}
         </div>
 
-        <div className="px-[7.5vw]">
+        <div className="px-[7.5vw] pb-[3.5rem]">
           <div className="mb-[2.5rem] border-t-1 border-[#BFC1B9] pt-[3.5rem]">
-            <h2 className="mb-2 text-[1.125rem] font-bold lg:text-2xl">
+            <h2 className="mb-2 text-[1.125rem] font-bold lg:text-[1.625rem]">
               Which outsourcing solutions are you looking for?
             </h2>
-            <p className="text-sm">Choose as many as you need.</p>
+            <p className="text-[1rem] font-[500]">Choose as many as you need.</p>
           </div>
           <div
             ref={scrollRef}
@@ -882,8 +946,8 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="px-[7.5vw]">
-          <div className="mt-[5rem] items-center justify-between gap-4 rounded-2xl bg-[#bfc1b9] p-[2.5rem] lg:flex">
+        <div className="px-[7.5vw] pt-[5rem]">
+          <div className="items-center justify-between gap-4 rounded-2xl bg-[#bfc1b9] p-[2.5rem] lg:flex">
             <div>
               <p className="text-center text-[1.125rem] lg:text-start lg:text-[1.625rem]">
                 Driving better business results <br /> for 200+ companies.
@@ -932,10 +996,10 @@ export default function HomePage() {
             transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
             className="max-w-[32.5rem]"
           >
-            <h3 className="f_header !mb-[2rem] text-[2.5rem] lg:text-[3.75rem] lg:leading-[1.2]">
+            <h3 className="f_header !mb-[2rem] text-[2.3rem] leading-[1.2] font-[500] lg:text-[3.75rem] lg:leading-[1.2]">
               Free up resources, accelerate growth, and solve for scale.
             </h3>
-            <p className="!mb-[1rem] !text-[1.25rem] font-[400]">
+            <p className="!mb-[1rem] text-[1rem] font-[400] lg:!text-[1.25rem]">
               At SupportNinja, we combine cutting-edge technology with value-centricity to foster high-performing,
               reliable teams that turn growing pains into efficient pathways to profitability.
               <br />
@@ -956,7 +1020,7 @@ export default function HomePage() {
       </section>
 
       {/* Don't grow it alone section */}
-      <section className="bg-[#fffcfa] py-16">
+      <section className="bg-[#fffcfa]">
         <div className="container">
           {" "}
           <div className="!mb-[5rem] flex grid-cols-2 flex-col-reverse gap-2 lg:grid">
@@ -967,11 +1031,11 @@ export default function HomePage() {
               transition={{ duration: 0.6, ease: "easeOut" }} // ตั้งค่าความเร็วและลักษณะการเคลื่อนไหว
             >
               <p className="f_header mb-2 text-[2.50rem] lg:text-[3.75rem]">Don’t grow it alone</p>
-              <p className="mb-4 text-[1rem] lg:text-lg">
+              <p className="mb-4 text-[1rem] text-[#58595c] lg:text-[1.25rem]">
                 Don't let headcount become a headache. We’ll connect you with talent that meets your needs.
               </p>
               <br />
-              <p className="mb-4 text-lg text-[1rem] lg:text-lg">
+              <p className="mb-4 text-lg text-[1rem] text-[#58595c] lg:text-[1.25rem]">
                 Your dedicated new team members will become experts in your world — your customers, your tech, your
                 data, your systems — so they can expand on what you’ve built.
               </p>
@@ -998,7 +1062,45 @@ export default function HomePage() {
               {outher1.map((item, index) => (
                 <motion.div
                   key={index}
-                  className="mb-[3.5rem] flex gap-[1.5rem] pe-[3.5rem] pt-[2rem]"
+                  className="mb-[3.5rem] flex flex-col gap-[1.5rem] md:flex-row md:pe-[3.5rem] md:pt-[2rem]"
+                  variants={itemVariants}
+                >
+                  <Image
+                    src={item.src}
+                    alt={item.alt}
+                    width={40} // ขนาดรูปภาพเล็ก
+                    height={40} // ขนาดรูปภาพเล็ก
+                    className="h-10"
+                  />
+                  <div className="flex flex-col justify-between">
+                    <div>
+                      <h2 className="mb-[1rem] text-xl font-bold">{item.h2}</h2>
+                      <p className="mt-2 text-[1rem] leading-[1.7]">{item.p}</p>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <p className="!mb-0 text-[1.125rem] !font-[700] md:text-black">{item.text_end}</p>
+                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                          d="M12.51 6.605L6.822 0.916999L5.076 2.654L7.83 5.408H0.657V7.784H7.83L5.076 10.547L6.822 12.293L12.51 6.605Z"
+                          fill="currentColor"
+                        ></path>
+                      </svg>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+            <motion.div
+              ref={ref5} // อ้างอิง div ที่สอง
+              className="grid-cols-3 lg:grid"
+              variants={containerVariants}
+              initial="hidden"
+              animate={controls5} // ใช้ controls2 เพื่อควบคุม animation
+            >
+              {outher2.map((item, index) => (
+                <motion.div
+                  key={index}
+                  className="mb-[3.5rem] flex flex-col gap-[1.5rem] md:flex-row md:pe-[3.5rem] md:pt-[2rem]"
                   variants={itemVariants}
                 >
                   <Image
@@ -1026,57 +1128,19 @@ export default function HomePage() {
                 </motion.div>
               ))}
             </motion.div>
-            <motion.div
-              ref={ref5} // อ้างอิง div ที่สอง
-              className="grid-cols-3 lg:grid"
-              variants={containerVariants}
-              initial="hidden"
-              animate={controls5} // ใช้ controls2 เพื่อควบคุม animation
-            >
-              {outher2.map((item, index) => (
-                <motion.div
-                  key={index}
-                  className="flex gap-[1.5rem] border-t border-b pe-[3.5rem] pt-[2rem] lg:border-b-0"
-                  variants={itemVariants}
-                >
-                  <Image
-                    src={item.src}
-                    alt={item.alt}
-                    width={40} // ขนาดรูปภาพเล็ก
-                    height={40} // ขนาดรูปภาพเล็ก
-                    className="h-10"
-                  />
-                  <div className="flex flex-col justify-between">
-                    <div>
-                      <h2 className="mb-[1rem] text-xl font-bold">{item.h2}</h2>
-                      <p className="mt-2 text-[1rem] leading-[1.7]">{item.p}</p>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <p className="!mb-0 w-[90%] text-[1.125rem] !font-[700] text-black">{item.text_end}</p>
-                      <svg width="13" height="13" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path
-                          d="M12.51 6.605L6.822 0.916999L5.076 2.654L7.83 5.408H0.657V7.784H7.83L5.076 10.547L6.822 12.293L12.51 6.605Z"
-                          fill="currentColor"
-                        ></path>
-                      </svg>
-                    </div>
-                  </div>
-                </motion.div>
-              ))}
-            </motion.div>
           </div>
         </div>
       </section>
 
       {/* Why clients stick with us section */}
-      <section className="bg-[#fffcfa] py-16">
+      <section className="bg-[#fffcfa]">
         <div className="container">
           <p className="f_header py-[2rem] text-center text-[2.75rem] lg:text-[3.75rem]">
             Why our clients stick with us
           </p>
           <div className="">
-            <div className="relative rounded-lg border border-gray-200 bg-[#f7e1d2] p-6 py-[2.5rem] shadow-md transition-shadow hover:shadow-lg">
-              <div className="absolute top-0 right-0">
+            <div className="relative rounded-[20px] bg-[#f7e1d2] p-6 py-[2.5rem]">
+              <div className="absolute top-0 right-0 hidden md:block">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0ce154ce4785_Testimonial%20Scribble%2002.svg"
                   alt="Top Left Decoration"
@@ -1084,7 +1148,7 @@ export default function HomePage() {
                   height={100}
                 />
               </div>
-              <div className="absolute top-0 left-0">
+              <div className="absolute top-0 left-0 hidden md:block">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c6fbcce4788_Testimonial%20Scribble%2001.svg"
                   alt="Top Right Decoration"
@@ -1092,25 +1156,65 @@ export default function HomePage() {
                   height={100}
                 />
               </div>
-              <p className="f_header mb-4 py-[2rem] text-center text-[1.375rem] text-gray-700 italic lg:px-[5rem]">
-                "SupportNinja has really been flexible with us as we’re growing the <br /> business, and have been
-                really responsive and accommodating. They’ve <br /> been integral to helping our business grow."
-              </p>
-              <h3 className="px-[5rem] text-center text-xl text-gray-900">Pam Schwab</h3>
-              <p className="px-[5rem] text-center text-sm text-gray-600">VP of Quality & Customer Care, SymmetryRx</p>
-
-              <div className="flex items-center gap-10 px-[3.5rem]">
-                <div className="flex space-x-2">
-                  {[...Array(5)].map((_, index) => (
-                    <span
-                      key={index}
-                      className={`h-2 w-2 rounded-full ${index === 2 ? "bg-[#004225]" : "bg-[#d3d3d3]"}`}
-                    ></span>
+              <div className="absolute bottom-0 right-0  md:hidden">
+                <Image
+                  src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c7320ce4797_Testimonial%20Mobile%20Scribble%2002.svg"
+                  alt="Top Left Decoration"
+                  width={200}
+                  height={100}
+                />
+              </div>
+              <div className="absolute bottom-0 left-0  md:hidden">
+                <Image
+                  src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c50acce4796_Testimonial%20Mobile%20Scribble%2001.svg"
+                  alt="Top Left Decoration"
+                  width={200}
+                  height={100}
+                />
+              </div>
+              <div
+                className="mx-auto w-full max-w-5xl px-4 py-12"
+                ref={carouselContainer}
+                onMouseDown={startDragging}
+                onMouseLeave={stopDragging}
+                onMouseUp={stopDragging}
+                onMouseMove={dragMove}
+              >
+                <div className="overflow-hidden">
+                  <div
+                    className="flex transition-all duration-300 ease-in-out"
+                    style={{
+                      transform: `translateX(-${activeIndex * 100}%)`,
+                    }}
+                  >
+                    {testimonials.map((item, idx) => (
+                      <div key={idx} className="w-full flex-shrink-0 rounded-lg bg-[#f7e1d2]">
+                        <blockquote className="f_header mb-6 text-center text-[1rem] font-[600] text-gray-700 italic md:text-xl">
+                          "{item.quote}"
+                        </blockquote>
+                        <h3 className="text-center text-lg text-gray-900">{item.name}</h3>
+                        <p className="text-center text-sm text-gray-600">{item.title}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+              <div className="flex items-center justify-center gap-0 px-[3.5rem] md:gap-10">
+                <div className="hidden space-x-2 md:flex">
+                  {testimonials.map((_, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setActiveIndex(idx)}
+                      className={`mx-2 h-2 w-2 rounded-full ${idx === activeIndex ? "bg-[#004225]" : "bg-[#d3d3d3]"}`}
+                    />
                   ))}
                 </div>
-                <div className="h-[1px] w-full bg-[#d3d3d3]"></div>
+                <div className="hidden h-[1px] w-full bg-[#d3d3d3] md:block"></div>
                 <div className="flex">
-                  <div className="flex h-[2.5rem] items-center rounded-tl-[48px] rounded-bl-[48px] bg-[#004225] pt-[0.53125rem] pr-[0.875rem] pb-[0.59375rem] pl-[1.375rem]">
+                  <div
+                    onClick={handlePrevSlide}
+                    className="flex h-[2.5rem] items-center rounded-tl-[48px] rounded-bl-[48px] bg-[#004225] pt-[0.53125rem] pr-[0.875rem] pb-[0.59375rem] pl-[1.375rem]"
+                  >
                     <svg
                       className=""
                       width="12"
@@ -1125,7 +1229,10 @@ export default function HomePage() {
                       ></path>
                     </svg>
                   </div>
-                  <div className="flex h-[2.5rem] rotate-180 items-center rounded-tl-[48px] rounded-bl-[48px] bg-[#004225] pt-[0.53125rem] pr-[0.875rem] pb-[0.59375rem] pl-[1.375rem]">
+                  <div
+                    onClick={handleNextSlide}
+                    className="flex h-[2.5rem] rotate-180 items-center rounded-tl-[48px] rounded-bl-[48px] bg-[#004225] pt-[0.53125rem] pr-[0.875rem] pb-[0.59375rem] pl-[1.375rem]"
+                  >
                     <svg width="12" height="11" viewBox="0 0 12 11" fill="none" xmlns="http://www.w3.org/2000/svg">
                       <path
                         d="M0.5525 5.292L5.5845 10.308L6.7845 9.124L3.8005 6.132H11.2325V4.468H3.8005L6.7845 1.476L5.5845 0.268L0.5525 5.292Z"
@@ -1140,7 +1247,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <div className="bg-[#fffcfa]">
+      <div className="bg-[#fffcfa] pt-[4rem]">
         <Image
           src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c7976ce4795_Section%20Curve%2002.svg"
           alt="Project Logo"
@@ -1151,12 +1258,12 @@ export default function HomePage() {
         />
       </div>
 
-      <section className="bg-stone relative bg-[#bfc1b9] pb-16">
-        <div className="relative">
+      <section className="bg-stone relative bg-[#bfc1b9] pb-[5.5rem]">
+        <div className="">
           <img
             src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c0fc8ce4798_Globe%20Lines.svg"
             alt="Globe Background"
-            className="absolute inset-0 mx-auto w-[100%] md:block"
+            className="absolute inset-0 bottom-0 left-1/2 mx-auto w-[100%] w-full -translate-x-1/2 transform md:block md:w-[80%]"
           />
         </div>
         <div className="px-[7.5vw]">
@@ -1235,18 +1342,19 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="bg-[#bfc1b9] py-[10rem]">
+      <section className="bg-[#bfc1b9] py-[7.5rem]">
         <div className="mx-auto px-[7.5vw]">
           <div className="grid grid-cols-1 items-start gap-20 lg:grid-cols-2">
             {/* Left Content */}
             <div className="flex flex-col justify-start pt-4">
               <h2 className="f_header mb-6 text-[2.75rem] leading-tight font-[500] lg:text-[4rem]">
-                Our customized <br /> approach
+                Our customized <br className="hidden lg:block" /> approach
               </h2>
               <p className="text-[1rem] leading-relaxed font-[500] lg:text-[1.25rem]">
                 We tailor our strategies and services based on your
-                <br /> roadblocks and needs, delivering a strategic outsourcing
-                <br /> playbook — inclusive of technology, talent, and timing —<br /> that drives your business forward.
+                <br className="hidden lg:block" /> roadblocks and needs, delivering a strategic outsourcing
+                <br className="hidden lg:block" /> playbook — inclusive of technology, talent, and timing —
+                <br className="hidden lg:block" /> that drives your business forward.
               </p>
             </div>
 
@@ -1297,17 +1405,17 @@ export default function HomePage() {
                   ).map((step, index) => (
                     <div key={index} className="!mb-0 flex items-start gap-6 pb-[1.25rem]">
                       {/* Fixed perfect circle */}
-                      <div className="relative z-10 flex h-[48px] w-[48px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-lg leading-none font-semibold shadow-md">
+                      <div className="relative z-10 flex h-[48px] w-[48px] shrink-0 items-center justify-center overflow-hidden rounded-full bg-white text-lg leading-none font-semibold">
                         {index + 1}
                       </div>
-                      <div className="absolute top-4 right-auto -bottom-8 left-6 w-[2px] bg-white"></div>
+                      <div className="absolute top-4 right-auto -bottom-8 left-6 h-[350] sm:h-[300px] w-[1px] bg-white"></div>
                       <h4 className="!mt-0 text-[1rem] leading-relaxed lg:text-[1.25rem]">{step}</h4>
                     </div>
                   ))}
                 </div>
                 <a
                   href="/how-it-works"
-                  className="mt-10 inline-block w-full rounded-full bg-[#0f3d2e] px-8 py-5 text-center text-xl font-semibold text-white transition hover:bg-[#0c3427]"
+                  className="mt-10 inline-block w-full rounded-full bg-[#0f3d2e] px-[1.5rem] py-[.75rem] text-center text-xl font-semibold text-white transition hover:bg-[#0c3427]"
                 >
                   View details
                 </a>
@@ -1323,7 +1431,7 @@ export default function HomePage() {
             <div className="flex-1 text-center md:text-left">
               <p className="f_header text-ninja-dark mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
                 We're passionate
-                <br /> about our people.
+                <br className="hidden lg:block" /> about our people.
               </p>
               <p className="text-ninja-dark mb-8 text-xl font-bold md:text-xl">
                 Our people-first culture attracts and retains top talent.
@@ -1340,7 +1448,7 @@ export default function HomePage() {
 
             <motion.div
               ref={ref8}
-              className="order-1 grid grid-cols-3 gap-4 md:order-2 md:w-[700px]"
+              className="lg:w-[700px]: order-1 grid grid-cols-3 gap-4 md:order-2 md:w-[600px]"
               variants={containerVariants2}
               initial="hidden"
               animate={inView8 ? "visible" : "hidden"}
@@ -1368,7 +1476,7 @@ export default function HomePage() {
       </section>
 
       <section className="w-full bg-[#fffcfa] px-[7.5vw] py-16">
-        <div className="mx-auto px-4">
+        <div className="mx-auto">
           <div className="flex flex-col-reverse items-center gap-[7.5vw] lg:flex-row">
             <div className="relative flex flex-1 justify-center md:justify-start">
               <Image
@@ -1379,7 +1487,7 @@ export default function HomePage() {
                 className="h-auto w-[100%] min-w-full rounded-lg object-contain"
                 priority
               />
-              <div className="absolute bottom-[-5rem] left-16 hidden w-[10vw] rounded-[14px] bg-[#F7E1D2] shadow-2xl lg:block">
+              <div className="absolute bottom-[-5rem] left-16 hidden w-[20vw] rounded-[14px] bg-[#F7E1D2] shadow-2xl md:block lg:block lg:w-[10vw]">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c34dace47c3_Tile%20Illustrations__Document%202.webp"
                   alt="Project Logo"
@@ -1393,7 +1501,7 @@ export default function HomePage() {
 
             <div className="flex-1 text-center md:text-left">
               <p className="text-ninja-dark f_header mb-4 text-4xl font-medium md:text-5xl lg:text-6xl">
-                Grow your career and unleash your <br></br> potential.
+                Grow your career and unleash your <br className="hidden lg:block" /> potential.
               </p>
               <p className="text-ninja-dark mb-8 text-xl font-bold md:text-xl">
                 Ready to expand your horizons at a truly global company?
@@ -1422,11 +1530,13 @@ export default function HomePage() {
           />
         </div>
         <div className="w-full bg-[#F7E1D2] px-[7.5vw]">
-          <div className="mx-auto px-4 py-16">
+          <div className="mx-auto py-16">
             <div className="flex flex-col items-center gap-12 lg:flex-row">
-              <div className="flex-1 text-center md:text-left">
+              <div className="flex-1 text-center md:!order-2 md:text-left">
                 <p className="text-ninja-dark f_header mb-4 text-4xl font-medium md:text-5xl lg:text-6xl">
-                  We're better together.<br></br> Start building your<br></br> dream team.
+                  We're better together.
+                  <br className="hidden lg:block" /> Start building your
+                  <br className="hidden lg:block" /> dream team.
                 </p>
                 <p className="text-ninja-dark mb-8 text-xl font-bold md:text-xl">
                   Design a custom outsourcing solution that drives results.
@@ -1450,7 +1560,7 @@ export default function HomePage() {
                   </span>
                 </Link>
               </div>
-              <div className="flex flex-1 justify-center md:justify-end">
+              <div className="flex flex-1 justify-center md:!order-1 md:justify-end">
                 <img
                   className="w-[100%] rounded-lg"
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0cc4e1ce4794_Character%20Illustration__Footer-CTA.webp"
