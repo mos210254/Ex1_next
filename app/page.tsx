@@ -632,20 +632,20 @@ export default function HomePage() {
               Resources
             </a>
           </nav>
-          <div className=" lg:hidden">
+          <div className="lg:hidden">
             {/* ปุ่ม Burger */}
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="relative z-50 flex h-10 w-10 flex-col gap-[3px] items-center justify-center"
+              className="relative z-50 flex h-10 w-10 flex-col items-center justify-center gap-[3px]"
               aria-label="Toggle Menu"
             >
               <div
-                className={` h-[2px] w-7 bg-black transition-transform duration-300 ease-in-out ${
+                className={`h-[2px] w-7 bg-black transition-transform duration-300 ease-in-out ${
                   isOpen ? "translate-y-[7px] rotate-45" : ""
                 }`}
               ></div>
               <div
-                className={` h-[2px] w-7 bg-black transition-opacity duration-300 ease-in-out ${
+                className={`h-[2px] w-7 bg-black transition-opacity duration-300 ease-in-out ${
                   isOpen ? "opacity-0" : "opacity-100"
                 }`}
               ></div>
@@ -864,7 +864,7 @@ export default function HomePage() {
         </div>
 
         <div className="px-[7.5vw] pb-[3.5rem]">
-          <div className="mb-[2.5rem] border-t-1 border-[#BFC1B9] pt-[3.5rem]">
+          <div className="mb-[2.5rem] border-t-1 border-[#BFC1B9] pt-[1.5rem] sm:pt-[3.5rem]">
             <h2 className="mb-2 text-[1.125rem] font-bold lg:text-[1.625rem]">
               Which outsourcing solutions are you looking for?
             </h2>
@@ -876,7 +876,7 @@ export default function HomePage() {
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
             onMouseLeave={handleMouseUp}
-            className="md:no-scrollbar cursor-pointer md:overflow-x-auto md:whitespace-nowrap md:[-ms-overflow-style:none] md:[scrollbar-width:none]"
+            className="md:no-scrollbar cursor-pointer md:hidden md:overflow-x-auto md:whitespace-nowrap md:[-ms-overflow-style:none] md:[scrollbar-width:none]"
             style={{ WebkitOverflowScrolling: "touch" }}
           >
             <div className="flex flex-col justify-between gap-[1.5rem] lg:flex-row">
@@ -928,6 +928,47 @@ export default function HomePage() {
               ))}
             </div>
           </div>
+          <div
+            ref={scrollRef}
+            onMouseDown={handleMouseDown}
+            onMouseMove={handleMouseMove}
+            onMouseUp={handleMouseUp}
+            onMouseLeave={handleMouseUp}
+            className="md:no-scrollbar md:flex hidden cursor-pointer gap-[1.5rem] overflow-x-auto whitespace-nowrap  md:[-ms-overflow-style:none] md:[scrollbar-width:none]"
+            style={{ WebkitOverflowScrolling: "touch" }}
+          >
+            {img_data.map((img, i) => (
+              <div
+                onClick={() => handleCheckboxChange(i)}
+                key={i}
+                className={`${
+                  checkedItems[i]
+                    ? "bg-[#ffffff] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px-4px_rgba(0,0,0,0.1)]"
+                    : "bg-[#fffcfa80]"
+                } relative flex flex-col items-center justify-center gap-[1rem] rounded-[.75rem] bg-[#fffcfa80] py-[1.5rem] transition-all hover:bg-[#fffcfa] hover:shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px-4px_rgba(0,0,0,0.1)]`}
+                style={{ width: "311px", height: "230px" }} // Fixed dimensions for all cards
+              >
+                <div className="flex flex-col items-center justify-center gap-[1rem]">
+                  <img className="h-[7.5rem] w-[7.5rem] rounded-md object-cover" src={img.src} alt="" />
+                  <p className="mt-[1rem] text-center text-[1rem] !font-[700]">{img.alt}</p>
+                </div>
+
+                <div
+                  className={`${
+                    checkedItems[i] ? "" : ""
+                  } absolute top-[.5rem] right-[.5rem] m-2 h-[1rem] w-[1rem] rounded-[4px] border-[1px] border-[#58595c] shadow-[0_10px_15px_-3px_rgba(0,0,0,0.1),0_4px_6px-4px_rgba(0,0,0,0.1)]`}
+                ></div>
+
+                {checkedItems[i] && (
+                  <img
+                    src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c4278ce47b4_Select%20Checkmark.svg"
+                    alt="Checkmark Icon"
+                    className="absolute top-[.8rem] right-[.65rem] m-2 h-[.4375rem] w-[.625rem]"
+                  />
+                )}
+              </div>
+            ))}
+          </div>
           <div className="mt-[2rem]">
             <Link
               href="/get-started"
@@ -950,7 +991,7 @@ export default function HomePage() {
           </div>
         </div>
 
-        <div className="px-[7.5vw] pt-[5rem]">
+        <div className="px-[7.5vw] pt-[3.5rem] sm:pt-[5rem]">
           <div className="items-center justify-between gap-4 rounded-2xl bg-[#bfc1b9] p-[2.5rem] lg:flex">
             <div>
               <p className="text-center text-[1.125rem] lg:text-start lg:text-[1.625rem]">
@@ -1027,7 +1068,7 @@ export default function HomePage() {
       <section className="bg-[#fffcfa]">
         <div className="container">
           {" "}
-          <div className="!mb-[5rem] flex grid-cols-2 flex-col-reverse gap-2 lg:grid">
+          <div className="flex grid-cols-2 flex-col-reverse gap-2 sm:mb-[5rem] lg:grid">
             <motion.div
               ref={ref3} // อ้างอิง div นี้   >
               initial={{ opacity: 0, y: 40 }} // ค่าเริ่มต้นของ animation
@@ -1055,7 +1096,6 @@ export default function HomePage() {
             </div>
           </div>
           <div className="">
-            <hr className="my-8 h-px border-0 bg-gray-200 dark:bg-gray-700" />
             <motion.div
               ref={ref4} // อ้างอิง div แรก
               className="grid-cols-3 lg:grid"
@@ -1066,7 +1106,7 @@ export default function HomePage() {
               {outher1.map((item, index) => (
                 <motion.div
                   key={index}
-                  className="mb-[3.5rem] flex flex-col gap-[1.5rem] md:flex-row md:pe-[3.5rem] md:pt-[2rem]"
+                  className="mb-[3.5rem] flex flex-col gap-[1.5rem] border-t pt-[2rem] md:flex-row md:pe-[3.5rem] md:pt-[2rem]"
                   variants={itemVariants}
                 >
                   <Image
@@ -1104,7 +1144,7 @@ export default function HomePage() {
               {outher2.map((item, index) => (
                 <motion.div
                   key={index}
-                  className="mb-[3.5rem] flex flex-col gap-[1.5rem] md:flex-row md:pe-[3.5rem] md:pt-[2rem]"
+                  className="mb-[3.5rem] flex flex-col gap-[1.5rem] border-t pt-[2rem] md:flex-row md:pe-[3.5rem] md:pt-[2rem]"
                   variants={itemVariants}
                 >
                   <Image
@@ -1430,17 +1470,17 @@ export default function HomePage() {
       </section>
 
       <section className="w-full bg-[#fffcfa] px-[7.5vw] py-16">
-        <div className="px-4">
+        <div className="sm:px-4">
           <div className="flex flex-col items-center gap-12 lg:flex-row">
-            <div className="flex-1 text-center md:text-left">
+            <div className="flex-1 sm:text-center md:text-left">
               <p className="f_header text-ninja-dark mb-4 text-4xl font-bold md:text-5xl lg:text-6xl">
                 We're passionate
                 <br className="hidden lg:block" /> about our people.
               </p>
-              <p className="text-ninja-dark mb-8 text-xl font-bold md:text-xl">
+              <p className="text-ninja-dark mb-8 text-[1rem] !font-[700] sm:text-[1.25rem] md:text-xl">
                 Our people-first culture attracts and retains top talent.
               </p>
-              <p className="text-ninja-dark mb-8 text-xl md:text-xl">
+              <p className="text-ninja-dark mb-8">
                 For nearly a decade, we've fostered the growth, wellbeing,
                 <br /> and career development of our team members — and that's
                 <br /> earned us industry-high talent retention rates.
@@ -1491,7 +1531,7 @@ export default function HomePage() {
                 className="h-auto w-[100%] min-w-full rounded-lg object-contain"
                 priority
               />
-              <div className="absolute bottom-[-5rem] left-16 hidden w-[20vw] rounded-[14px] bg-[#F7E1D2] shadow-2xl md:block lg:block lg:w-[10vw]">
+              <div className="absolute bottom-[-3rem] left-6 w-[30vw] rounded-[14px] bg-[#F7E1D2] shadow-2xl sm:bottom-[-5rem] sm:left-16 sm:w-[20vw] md:block lg:block lg:w-[10vw]">
                 <Image
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c34dace47c3_Tile%20Illustrations__Document%202.webp"
                   alt="Project Logo"
@@ -1503,14 +1543,14 @@ export default function HomePage() {
               </div>
             </div>
 
-            <div className="flex-1 text-center md:text-left">
+            <div className="flex-1 text-[1rem] sm:text-center md:text-left md:text-[1.25rem]">
               <p className="text-ninja-dark f_header mb-4 text-4xl font-medium md:text-5xl lg:text-6xl">
                 Grow your career and unleash your <br className="hidden lg:block" /> potential.
               </p>
-              <p className="text-ninja-dark mb-8 text-xl font-bold md:text-xl">
+              <p className="text-ninja-dark mb-8 text-[1rem] !font-[700] md:text-[1.25rem]">
                 Ready to expand your horizons at a truly global company?
               </p>
-              <p className="text-ninja-dark mb-8 text-xl md:text-xl">
+              <p className="text-ninja-dark mb-8 text-[1rem] md:text-[1.25rem]">
                 At SupportNinja, we prioritize your progress, celebrate<br></br> your wins, and provide a supportive
                 environment where<br></br> you can thrive. Check out our openings today.
               </p>
@@ -1522,7 +1562,7 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="w-full bg-[#fffcfa] pt-[8.5rem]">
+      <section className="w-full bg-[#fffcfa] sm:pt-[8.5rem]">
         <div className="w-full">
           <Image
             src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0c211cce4793_Section%20Curve%2003.svg"
@@ -1536,13 +1576,13 @@ export default function HomePage() {
         <div className="w-full bg-[#F7E1D2] px-[7.5vw]">
           <div className="mx-auto py-16">
             <div className="flex flex-col items-center gap-12 lg:flex-row">
-              <div className="flex-1 text-center md:!order-2 md:text-left">
-                <p className="text-ninja-dark f_header mb-4 text-4xl font-medium md:text-5xl lg:text-6xl">
+              <div className="!order-2 flex-1 sm:text-center md:text-left lg:order-1">
+                <h3 className="text-ninja-dark f_header mb-4 text-4xl !font-[600] md:text-5xl lg:text-6xl">
                   We're better together.
                   <br className="hidden lg:block" /> Start building your
                   <br className="hidden lg:block" /> dream team.
-                </p>
-                <p className="text-ninja-dark mb-8 text-xl font-bold md:text-xl">
+                </h3>
+                <p className="text-ninja-dark !mt-[2.5rem] !mb-[3.5rem] text-[.875rem] !font-[700] sm:text-[1rem] md:text-xl">
                   Design a custom outsourcing solution that drives results.
                 </p>
                 <Link
@@ -1564,7 +1604,7 @@ export default function HomePage() {
                   </span>
                 </Link>
               </div>
-              <div className="flex flex-1 justify-center md:!order-1 md:justify-end">
+              <div className="!order-1 flex flex-1 justify-center md:justify-end lg:!order-2">
                 <img
                   className="w-[100%] rounded-lg"
                   src="https://cdn.prod.website-files.com/64149f79022d0c5fc8ce46e8/64149f79022d0cc4e1ce4794_Character%20Illustration__Footer-CTA.webp"
